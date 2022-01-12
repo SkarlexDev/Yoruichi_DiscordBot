@@ -2,8 +2,8 @@ package Main.command.commands.music;
 
 import Main.command.CommandContext;
 import Main.command.ICommand;
-import Main.lavaplayer.GuildMusicManager;
-import Main.lavaplayer.PlayerManager;
+import Main.music.lavaplayer.GuildMusicManager;
+import Main.music.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;

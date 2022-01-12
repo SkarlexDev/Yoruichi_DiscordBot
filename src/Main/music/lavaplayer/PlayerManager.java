@@ -1,4 +1,4 @@
-package Main.lavaplayer;
+package Main.music.lavaplayer;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;

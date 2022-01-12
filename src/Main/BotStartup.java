@@ -20,14 +20,12 @@ public class BotStartup {
 	}	
 
 	public static void main(String[] args) throws LoginException, SQLException{
-		new BotStartup();
-		/*
 		try {
 			new BotStartup();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		*/
+
 	}
 
 }

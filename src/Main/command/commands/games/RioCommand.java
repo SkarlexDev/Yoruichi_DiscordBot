@@ -1,4 +1,4 @@
-package Main.command.commands;
+package Main.command.commands.games;
 
 import java.awt.Color;
 import java.io.FileNotFoundException;
@@ -96,9 +96,8 @@ public class RioCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Shows a random animal image\n"
-				+ "Ussage: `!animal [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`\n"
-				+ "Aliases: `" + this.getAliases() + "`";
+		return "Shows a wow raider.io stats\n"
+				+ "Correct usage is `!rio [name][realm]`";
 	}
 
 	@Override

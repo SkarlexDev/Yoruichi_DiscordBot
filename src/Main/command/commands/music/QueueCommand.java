@@ -1,12 +1,17 @@
 package Main.command.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
+
 import Main.command.CommandContext;
 import Main.command.ICommand;
-import Main.lavaplayer.GuildMusicManager;
-import Main.lavaplayer.PlayerManager;
-import me.duncte123.botcommons.BotCommons;
+import Main.music.lavaplayer.GuildMusicManager;
+import Main.music.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -17,29 +22,7 @@ public class QueueCommand implements ICommand {
         final TextChannel channel = ctx.getChannel();
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(ctx.getGuild());
         final BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
-        
-        
-        String customerror = "``ERROR net.dv8tion.jda.api.JDA - One of the EventListeners had an uncaught exception\r\n" +
-        		"at Main.command.commands.music.QueueCommand.handle(QueueCommand.java:31)\r\n" + 
-        		"at Main.CommandManager.handle(CommandManager.java:78)\r\n" + 	
-        		"at net.dv8tion.jda.internal.hooks.EventManagerProxy.handle(EventManagerProxy.java:70)\r\n" + 
-        		"at net.dv8tion.jda.internal.JDAImpl.handleEvent(JDAImpl.java:160)``";
-        
-        
-        channel.sendMessage(customerror).queue();
-        channel.sendMessage(ctx.getGuild().getMemberById("606132708028186634").getAsMention()).queue();
-        
-        try {
-    		TimeUnit.SECONDS.sleep(2);
-    		ctx.getJDA().shutdown();
-    		BotCommons.shutdown(ctx.getJDA());
-    		System.exit(0);
-    	} catch (InterruptedException e) {
-    		e.printStackTrace();
-    	}
-        
-        
-        /*
+
         if (queue.isEmpty()) {
             channel.sendMessage("The queue is currently empty").queue();
             return;
@@ -71,10 +54,9 @@ public class QueueCommand implements ICommand {
         }
 
         messageAction.queue();
-        */
+
     }
 
-    @SuppressWarnings("unused")
 	private String formatTime(long timeInMillis) {
         final long hours = timeInMillis / TimeUnit.HOURS.toMillis(1);
         final long minutes = timeInMillis / TimeUnit.MINUTES.toMillis(1);

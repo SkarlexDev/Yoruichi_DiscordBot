@@ -1,4 +1,4 @@
-package Main.command.commands;
+package Main.command.commands.moderation;
 
 import java.awt.Color;
 import java.net.URL;

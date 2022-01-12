@@ -1,4 +1,4 @@
-package Main.command.commands;
+package Main.command.commands.moderation;
 
 import Main.command.CommandContext;
 import Main.command.ICommand;

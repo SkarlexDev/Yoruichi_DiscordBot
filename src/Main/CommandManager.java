@@ -4,8 +4,9 @@ import javax.annotation.Nullable;
 
 import Main.command.CommandContext;
 import Main.command.ICommand;
-import Main.command.commands.*;
 import Main.command.commands.fun.*;
+import Main.command.commands.games.RioCommand;
+import Main.command.commands.moderation.*;
 import Main.command.commands.music.*;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 

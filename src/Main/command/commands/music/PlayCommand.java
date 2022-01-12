@@ -5,7 +5,7 @@ import java.util.List;
 
 import Main.command.CommandContext;
 import Main.command.ICommand;
-import Main.lavaplayer.PlayerManager;
+import Main.music.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
