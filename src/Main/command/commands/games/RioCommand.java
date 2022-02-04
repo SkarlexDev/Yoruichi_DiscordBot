@@ -1,25 +1,15 @@
 package Main.command.commands.games;
 
 import java.awt.Color;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
-
-import org.json.JSONObject;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import Main.BotStartup;
+import Main.BotRun;
 import Main.command.CommandContext;
 import Main.command.ICommand;
-import me.duncte123.botcommons.messaging.EmbedUtils;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.internal.utils.IOUtil;
 
 public class RioCommand implements ICommand {
 	@Override
@@ -27,7 +17,7 @@ public class RioCommand implements ICommand {
 		final TextChannel channel = ctx.getChannel();
 		List<String> args = ctx.getArgs();
 		if (ctx.getArgs().isEmpty()) {
-			channel.sendMessage("Correct usage is `"+BotStartup.prefix+"rio [name][realm]`").queue();
+			channel.sendMessage("Correct usage is `"+BotRun.prefix+"rio [name][realm]`").queue();
 			return;
 		}
 
@@ -84,7 +74,7 @@ public class RioCommand implements ICommand {
 
 					});
 		} else {
-			channel.sendMessage("Correct usage is `"+BotStartup.prefix+"rio [name][realm]`").queue();
+			channel.sendMessage("Correct usage is `"+BotRun.prefix+"rio [name][realm]`").queue();
 			return;
 		}
 
@@ -98,7 +88,7 @@ public class RioCommand implements ICommand {
 	@Override
 	public String getHelp() {
 		return "Shows a wow raider.io stats\n"
-				+ "Correct usage is `"+BotStartup.prefix+"rio [name][realm]`";
+				+ "Correct usage is `"+BotRun.prefix+"rio [name][realm]`";
 	}
 
 	@Override

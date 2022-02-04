@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import Main.BotStartup;
+import Main.BotRun;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -22,7 +22,7 @@ public class ClearCommand implements ICommand {
 		int size = ctx.getArgs().size();
 		int delTime = 5;
 
-		if (!user.getId().equals(BotStartup.owner)) {
+		if (!user.getId().equals(BotRun.owner)) {
 			channel.sendMessage("You are not allowed to use this command!").queue();
 			return;
 		}
@@ -31,7 +31,7 @@ public class ClearCommand implements ICommand {
 			EmbedBuilder usage = new EmbedBuilder()
 					.setColor(Color.ORANGE)
 					.setTitle("Specify amount to delete")
-					.setDescription("Usage: `" + BotStartup.prefix + "clear [# ammount of messages]`");
+					.setDescription("Usage: `" + BotRun.prefix + "clear [# ammount of messages]`");
 			channel.sendMessageEmbeds(usage.build()).queue();
 			usage.clear();
 			return;
@@ -42,7 +42,7 @@ public class ClearCommand implements ICommand {
 			try {
 				Integer.parseInt(n1);
 			} catch (Exception e) {
-				channel.sendMessage("Invalid command use `"+BotStartup.prefix+"help clear`").queue((message) -> {
+				channel.sendMessage("Invalid command use `"+BotRun.prefix+"help clear`").queue((message) -> {
 					message.delete().queueAfter(delTime, TimeUnit.SECONDS);
 				});
 				return;
@@ -91,7 +91,7 @@ public class ClearCommand implements ICommand {
 			EmbedBuilder usage = new EmbedBuilder()
 					.setColor(Color.ORANGE)
 					.setTitle("Specify amount to delete")
-					.setDescription("Usage: `" + BotStartup.prefix + "clear [# ammount of messages]`");
+					.setDescription("Usage: `" + BotRun.prefix + "clear [# ammount of messages]`");
 			channel.sendMessageEmbeds(usage.build()).queue();
 			usage.clear();
 		}
@@ -104,7 +104,7 @@ public class ClearCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Clears messages\n" + "Usage: `"+BotStartup.prefix+"clear [# ammount of messages]`";
+		return "Clears messages\n" + "Usage: `"+BotRun.prefix+"clear [# ammount of messages]`";
 	}
 	@Override
 	public String getCategory() {

@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 
-import Main.BotStartup;
+import Main.BotRun;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import Main.music.lavaplayer.GuildMusicManager;
@@ -26,14 +26,14 @@ public class VolumeCommand implements ICommand{
 		List<String> args = ctx.getArgs();
 		
 		if(args.size()==0) {			
-			channel.sendMessage("Current volume: "+ current+ "\n" + "Change music volume\n" + "`"+BotStartup.prefix+"volume [# 0-100]`").queue();
+			channel.sendMessage("Current volume: "+ current+ "\n" + "Change music volume\n" + "`"+BotRun.prefix+"volume [# 0-100]`").queue();
 			return;
 		}
 		String n1 = args.get(0);
 		try {
 			Integer.parseInt(n1);
 		} catch (Exception e) {
-			channel.sendMessage("Invalid command use `"+BotStartup.prefix+"volume [# 0-100]`").queue((message) -> {
+			channel.sendMessage("Invalid command use `"+BotRun.prefix+"volume [# 0-100]`").queue((message) -> {
 				message.delete().queueAfter(delTime, TimeUnit.SECONDS);
 			});
 			return;
@@ -41,13 +41,13 @@ public class VolumeCommand implements ICommand{
 		if (args.size() == 1) {
 			
 			if(Integer.parseInt(n1)<0) {
-				channel.sendMessage("You can't use negative value! `"+BotStartup.prefix+"volume [# 0-100]`").queue((message) -> {
+				channel.sendMessage("You can't use negative value! `"+BotRun.prefix+"volume [# 0-100]`").queue((message) -> {
 					message.delete().queueAfter(delTime, TimeUnit.SECONDS);
 				});
 				return;
 			}
 			if(Integer.parseInt(n1)>100) {
-				channel.sendMessage("You can't set volume more than 100 `"+BotStartup.prefix+"volume [# 0-100]`").queue((message) -> {
+				channel.sendMessage("You can't set volume more than 100 `"+BotRun.prefix+"volume [# 0-100]`").queue((message) -> {
 					message.delete().queueAfter(delTime, TimeUnit.SECONDS);
 				});
 				return;
@@ -75,7 +75,7 @@ public class VolumeCommand implements ICommand{
 
 	@Override
 	public String getHelp() {
-		return "Change music volume\n" + "Usage: `"+BotStartup.prefix+"volume [0-100]`\n"
+		return "Change music volume\n" + "Usage: `"+BotRun.prefix+"volume [0-100]`\n"
 				+ "Aliases: `" + this.getAliases()+ "`";
 	}
 	@Override

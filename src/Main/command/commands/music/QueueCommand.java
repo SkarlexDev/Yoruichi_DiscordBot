@@ -16,7 +16,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class QueueCommand implements ICommand {
-    @SuppressWarnings("unused")
 	@Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();

@@ -31,11 +31,11 @@ public class Listener extends ListenerAdapter {
             return;
         }
 
-        String prefix = BotStartup.prefix;
+        String prefix = BotRun.prefix;
         String raw = event.getMessage().getContentRaw();
 
         if (raw.equalsIgnoreCase(prefix + "shutdown")
-                && user.getId().equals(BotStartup.owner)) {
+                && user.getId().equals(BotRun.owner)) {
         	
         	
         	event.getChannel().sendMessage("Shutting down!").queue();

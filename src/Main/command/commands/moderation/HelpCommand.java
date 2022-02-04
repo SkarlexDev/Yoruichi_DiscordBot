@@ -3,12 +3,11 @@ package Main.command.commands.moderation;
 import java.awt.Color;
 import java.util.*;
 
-import Main.BotStartup;
+import Main.BotRun;
 import Main.CommandManager;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class HelpCommand implements ICommand {
@@ -24,13 +23,11 @@ public class HelpCommand implements ICommand {
 	public void handle(CommandContext ctx) {
 		List<String> args = ctx.getArgs();
 		TextChannel channel = ctx.getChannel();
-		final Member self = ctx.getSelfMember();
 		if (args.isEmpty()) {
 			
 			StringBuilder Fun = new StringBuilder();
 			StringBuilder Moderation = new StringBuilder();
 			StringBuilder Music = new StringBuilder();
-			StringBuilder Animal = new StringBuilder();
 			StringBuilder Games = new StringBuilder();
 
 			List<ICommand> allcommands = manager.getCommands();
@@ -83,7 +80,7 @@ public class HelpCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Shows the list with commands in the bot\n" + "Usage: `" + BotStartup.prefix + "help [command]`";
+		return "Shows the list with commands in the bot\n" + "Usage: `" + BotRun.prefix + "help [command]`";
 	}
 
 	@Override

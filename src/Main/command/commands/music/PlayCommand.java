@@ -3,7 +3,7 @@ package Main.command.commands.music;
 import java.net.URL;
 import java.util.List;
 
-import Main.BotStartup;
+import Main.BotRun;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import Main.music.lavaplayer.PlayerManager;
@@ -45,7 +45,7 @@ public class PlayCommand implements ICommand {
             }
 
             if (!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-                ctx.getChannel().sendMessage("You are in different channel use `"+BotStartup.prefix+"join`").queue();
+                ctx.getChannel().sendMessage("You are in different channel use `"+BotRun.prefix+"join`").queue();
                 return;
             }
             break;
@@ -77,7 +77,7 @@ public class PlayCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Plays a song\n" +
-                "Usage: `"+BotStartup.prefix+"play <youtube link>`\n"
+                "Usage: `"+BotRun.prefix+"play <youtube link>`\n"
         		+ "Aliases: `" + this.getAliases() + "`";
         
         

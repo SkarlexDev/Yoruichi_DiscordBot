@@ -1,18 +1,15 @@
 package Main.command.commands.fun;
 
 import java.awt.Color;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import Main.BotStartup;
+import Main.BotRun;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import me.duncte123.botcommons.web.WebUtils;
@@ -27,7 +24,7 @@ public class AnimalCommand implements ICommand {
 		List<String> args = ctx.getArgs();
 
 		if (ctx.getArgs().isEmpty()) {
-			channel.sendMessage("Correct usage is `" + BotStartup.prefix +"animal [type]`").queue();
+			channel.sendMessage("Correct usage is `" + BotRun.prefix +"animal [type]`").queue();
 			return;
 		}
 
@@ -35,7 +32,7 @@ public class AnimalCommand implements ICommand {
 
 			WebUtils.ins.getJSONObject("https://apis.duncte123.me/animal/" + args.get(0) + "").async((json) -> {
 				if (!json.get("success").asBoolean()) {
-					channel.sendMessage("Something went wrong, try again later or use `" + BotStartup.prefix + "help animal`").queue();
+					channel.sendMessage("Something went wrong, try again later or use `" + BotRun.prefix + "help animal`").queue();
 					System.out.println(json);
 					return;
 				}
@@ -64,7 +61,7 @@ public class AnimalCommand implements ICommand {
 		} else {
 			EmbedBuilder usage = new EmbedBuilder().setColor(Color.RED).setTitle("Type only 1 animal")
 					.setDescription("Usage: "
-							+ "`"+BotStartup.prefix+"animal [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`");
+							+ "`"+BotRun.prefix+"animal [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`");
 			channel.sendMessageEmbeds(usage.build()).queue();
 			usage.clear();
 			return;
@@ -80,7 +77,7 @@ public class AnimalCommand implements ICommand {
 	@Override
 	public String getHelp() {
 		return "Shows a random animal image\n"
-				+ "Ussage: `"+BotStartup.prefix+"animal [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`\n"
+				+ "Ussage: `"+BotRun.prefix+"animal [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`\n"
 				+ "Aliases: `" + this.getAliases() + "`";
 	}
 
