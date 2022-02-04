@@ -3,6 +3,7 @@ package Main.command.commands.music;
 import java.net.URL;
 import java.util.List;
 
+import Main.BotStartup;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import Main.music.lavaplayer.PlayerManager;
@@ -44,7 +45,7 @@ public class PlayCommand implements ICommand {
             }
 
             if (!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-                ctx.getChannel().sendMessage("You are in different channel use `!join`").queue();
+                ctx.getChannel().sendMessage("You are in different channel use `"+BotStartup.prefix+"join`").queue();
                 return;
             }
             break;
@@ -55,15 +56,8 @@ public class PlayCommand implements ICommand {
         TODO: banned music + ban music command
         
         List<> bannedmusic = BannedMusic.getInstance().? get list // same as PlayerManager
-        
-        if (bannedmusic.contains(conta1)) { // 
-    		banned music
-		} else {
-    		play music
-		}
-        
-        
-         */
+        */
+       
         String link = String.join(" ", ctx.getArgs());
 
         if (!isUrl(link)) {
@@ -83,7 +77,7 @@ public class PlayCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Plays a song\n" +
-                "Usage: `!play <youtube link>`\n"
+                "Usage: `"+BotStartup.prefix+"play <youtube link>`\n"
         		+ "Aliases: `" + this.getAliases() + "`";
         
         

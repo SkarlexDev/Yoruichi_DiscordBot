@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import Main.BotStartup;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -26,7 +27,7 @@ public class RioCommand implements ICommand {
 		final TextChannel channel = ctx.getChannel();
 		List<String> args = ctx.getArgs();
 		if (ctx.getArgs().isEmpty()) {
-			channel.sendMessage("Correct usage is `!rio [name][realm]`").queue();
+			channel.sendMessage("Correct usage is `"+BotStartup.prefix+"rio [name][realm]`").queue();
 			return;
 		}
 
@@ -83,7 +84,7 @@ public class RioCommand implements ICommand {
 
 					});
 		} else {
-			channel.sendMessage("Correct usage is `!rio [name][realm]`").queue();
+			channel.sendMessage("Correct usage is `"+BotStartup.prefix+"rio [name][realm]`").queue();
 			return;
 		}
 
@@ -97,7 +98,7 @@ public class RioCommand implements ICommand {
 	@Override
 	public String getHelp() {
 		return "Shows a wow raider.io stats\n"
-				+ "Correct usage is `!rio [name][realm]`";
+				+ "Correct usage is `"+BotStartup.prefix+"rio [name][realm]`";
 	}
 
 	@Override

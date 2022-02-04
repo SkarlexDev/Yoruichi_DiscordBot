@@ -72,7 +72,7 @@ public class QueueCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "shows the queued up songs";
+        return "Shows the queued up songs";
     }
     
     @Override

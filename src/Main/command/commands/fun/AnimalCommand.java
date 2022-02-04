@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import Main.BotStartup;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import me.duncte123.botcommons.web.WebUtils;
@@ -26,7 +27,7 @@ public class AnimalCommand implements ICommand {
 		List<String> args = ctx.getArgs();
 
 		if (ctx.getArgs().isEmpty()) {
-			channel.sendMessage("Correct usage is `!animal [type]`").queue();
+			channel.sendMessage("Correct usage is `" + BotStartup.prefix +"animal [type]`").queue();
 			return;
 		}
 
@@ -34,7 +35,7 @@ public class AnimalCommand implements ICommand {
 
 			WebUtils.ins.getJSONObject("https://apis.duncte123.me/animal/" + args.get(0) + "").async((json) -> {
 				if (!json.get("success").asBoolean()) {
-					channel.sendMessage("Something went wrong, try again later or use `!help animal`").queue();
+					channel.sendMessage("Something went wrong, try again later or use `" + BotStartup.prefix + "help animal`").queue();
 					System.out.println(json);
 					return;
 				}
@@ -57,16 +58,13 @@ public class AnimalCommand implements ICommand {
 					e.printStackTrace();
 				}
 
-				// channel.sendMessage(url).queue();
-
-				// channel.sendMessage(data.get("file").asText()).queue();
 
 			});
 
 		} else {
 			EmbedBuilder usage = new EmbedBuilder().setColor(Color.RED).setTitle("Type only 1 animal")
 					.setDescription("Usage: "
-							+ "`!animal [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`");
+							+ "`"+BotStartup.prefix+"animal [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`");
 			channel.sendMessageEmbeds(usage.build()).queue();
 			usage.clear();
 			return;
@@ -82,7 +80,7 @@ public class AnimalCommand implements ICommand {
 	@Override
 	public String getHelp() {
 		return "Shows a random animal image\n"
-				+ "Ussage: `!animal [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`\n"
+				+ "Ussage: `"+BotStartup.prefix+"animal [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`\n"
 				+ "Aliases: `" + this.getAliases() + "`";
 	}
 

@@ -3,8 +3,8 @@ package Main.command.commands.moderation;
 import java.awt.Color;
 import java.util.*;
 
+import Main.BotStartup;
 import Main.CommandManager;
-import Main.Config;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -15,7 +15,6 @@ public class HelpCommand implements ICommand {
 
 	private final CommandManager manager;
 
-	String prefix = Config.get("prefix");
 
 	public HelpCommand(CommandManager manager) {
 		this.manager = manager;
@@ -27,25 +26,7 @@ public class HelpCommand implements ICommand {
 		TextChannel channel = ctx.getChannel();
 		final Member self = ctx.getSelfMember();
 		if (args.isEmpty()) {
-			/*
-			  StringBuilder builder = new StringBuilder();
-			  
-			  builder.append("List of commands\n");
-			  
-			  manager.getCommands().stream().map(ICommand::getName).forEach( (it) ->
-			  builder.append('`') .append(prefix) .append(it) .append("`\n") );
-			  
-			  channel.sendMessage(builder.toString()).queue();
-			  
-			 
-			  manager.getCommands().stream().map(ICommand::getName).forEach(
-		                    (it) -> builder.append('`')
-		                            .append(prefix)
-		                            .append(it)
-		                            .append("`\n")
-		            );
-			 */
-
+			
 			StringBuilder Fun = new StringBuilder();
 			StringBuilder Moderation = new StringBuilder();
 			StringBuilder Music = new StringBuilder();
@@ -102,7 +83,7 @@ public class HelpCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Shows the list with commands in the bot\n" + "Usage: `" + prefix + "help [command]`";
+		return "Shows the list with commands in the bot\n" + "Usage: `" + BotStartup.prefix + "help [command]`";
 	}
 
 	@Override

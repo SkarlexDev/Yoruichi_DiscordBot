@@ -54,7 +54,7 @@ public class SkipCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "skips the current track";
+        return "Skips the current track";
     }
     @Override
 	public String getCategory() {

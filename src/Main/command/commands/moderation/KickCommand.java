@@ -3,6 +3,7 @@ package Main.command.commands.moderation;
 
 import java.util.List;
 
+import Main.BotStartup;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import net.dv8tion.jda.api.Permission;
@@ -56,7 +57,7 @@ public class KickCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Kick a member off the server.\n" +
-                "Usage: `!!kick <@user> <reason>`";
+                "Usage: `"+BotStartup.prefix+"kick <@user> <reason>`";
     }
     
     @Override

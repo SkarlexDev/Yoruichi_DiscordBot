@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import Main.Config;
+import Main.BotStartup;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -19,30 +19,30 @@ public class ClearCommand implements ICommand {
 	public void handle(CommandContext ctx) {
 		final TextChannel channel = ctx.getChannel();
 		final User user = ctx.getAuthor();
-		List<String> args = ctx.getArgs();
+		int size = ctx.getArgs().size();
 		int delTime = 5;
 
-		if (!user.getId().equals(Config.get("owner_id"))) {
+		if (!user.getId().equals(BotStartup.owner)) {
 			channel.sendMessage("You are not allowed to use this command!").queue();
 			return;
 		}
 		
-		if(args.size()==0) {			
+		if(size==0) {			
 			EmbedBuilder usage = new EmbedBuilder()
 					.setColor(Color.ORANGE)
 					.setTitle("Specify amount to delete")
-					.setDescription("Usage: `" + "!" + "clear [# ammount of messages]`");
+					.setDescription("Usage: `" + BotStartup.prefix + "clear [# ammount of messages]`");
 			channel.sendMessageEmbeds(usage.build()).queue();
 			usage.clear();
 			return;
 		}
-		String n1 = args.get(0);
+		String n1 = ctx.getArgs().get(0);
 
 		if (!n1.equalsIgnoreCase("all")) {
 			try {
 				Integer.parseInt(n1);
 			} catch (Exception e) {
-				channel.sendMessage("Invalid command use `!help clear`").queue((message) -> {
+				channel.sendMessage("Invalid command use `"+BotStartup.prefix+"help clear`").queue((message) -> {
 					message.delete().queueAfter(delTime, TimeUnit.SECONDS);
 				});
 				return;
@@ -51,13 +51,16 @@ public class ClearCommand implements ICommand {
 			n1 = "100";
 		}
 
-		if (args.size() == 1) {
+		if (size == 1) {
 			try {
+				List<Message> messages;
 				if (Integer.parseInt(n1) == 1) {
-					n1 = "2";
+					messages = channel.getHistory().retrievePast(Integer.parseInt(n1) + 1).complete();
+				}
+				else {
+					messages = channel.getHistory().retrievePast(Integer.parseInt(n1)).complete();
 				}
 				// max 100 messages && not older than 2 weeks
-				List<Message> messages = channel.getHistory().retrievePast(Integer.parseInt(n1)).complete();
 				channel.deleteMessages(messages).queue();
 
 				// Success
@@ -88,7 +91,7 @@ public class ClearCommand implements ICommand {
 			EmbedBuilder usage = new EmbedBuilder()
 					.setColor(Color.ORANGE)
 					.setTitle("Specify amount to delete")
-					.setDescription("Usage: `" + "!" + "clear [# ammount of messages]`");
+					.setDescription("Usage: `" + BotStartup.prefix + "clear [# ammount of messages]`");
 			channel.sendMessageEmbeds(usage.build()).queue();
 			usage.clear();
 		}
@@ -101,7 +104,7 @@ public class ClearCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Clears messages\n" + "Usage: `!clear [# ammount of messages]`";
+		return "Clears messages\n" + "Usage: `"+BotStartup.prefix+"clear [# ammount of messages]`";
 	}
 	@Override
 	public String getCategory() {
