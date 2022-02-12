@@ -28,6 +28,7 @@ public class CommandManager {
         // moderation 
         addCommand(new KickCommand());
         addCommand(new ClearCommand());
+        addCommand(new ActivityCommand());
         // music
         addCommand(new JoinCommand());
         addCommand(new LeaveCommand());

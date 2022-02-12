@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.util.List;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import Main.BotRun;
 import Main.command.CommandContext;
 import Main.command.ICommand;
+import me.duncte123.botcommons.messaging.EmbedUtils;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -35,7 +37,7 @@ public class RioCommand implements ICommand {
 					+ "&name=" + charname + "&fields=guild%2Cmythic_plus_scores%2Cmythic_plus_ranks").async((json) -> {
 						ObjectNode data = json;
 
-						EmbedBuilder pr = new EmbedBuilder()
+						EmbedBuilder pr = EmbedUtils.getDefaultEmbed()
 								.setTitle(data.get("name").asText(), data.get("profile_url").asText())
 								.setColor(Color.GREEN)
 								.setThumbnail(data.get("thumbnail_url").asText())

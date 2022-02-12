@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import Main.BotRun;
 import Main.command.CommandContext;
 import Main.command.ICommand;
+import me.duncte123.botcommons.messaging.EmbedUtils;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -59,7 +60,9 @@ public class AnimalCommand implements ICommand {
 			});
 
 		} else {
-			EmbedBuilder usage = new EmbedBuilder().setColor(Color.RED).setTitle("Type only 1 animal")
+			EmbedBuilder usage = EmbedUtils.getDefaultEmbed()
+					.setColor(Color.RED)
+					.setTitle("Type only 1 animal")
 					.setDescription("Usage: "
 							+ "`"+BotRun.prefix+"animal [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`");
 			channel.sendMessageEmbeds(usage.build()).queue();

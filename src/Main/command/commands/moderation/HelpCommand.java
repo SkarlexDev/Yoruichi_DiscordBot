@@ -7,6 +7,7 @@ import Main.BotRun;
 import Main.CommandManager;
 import Main.command.CommandContext;
 import Main.command.ICommand;
+import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -49,16 +50,15 @@ public class HelpCommand implements ICommand {
 				}
 			}
 			
-			EmbedBuilder info = new EmbedBuilder().
+			EmbedBuilder info = EmbedUtils.getDefaultEmbed().
 					setColor(Color.GREEN).
 					setAuthor("Help command", null,	ctx.getSelfUser().getAvatarUrl())
-					.addField("Fun", Fun.toString(), false).
-					addField("Moderation", Moderation.toString(), false)
+					.addField("Fun", Fun.toString(), false)
+					.addField("Moderation", Moderation.toString(), false)
 					.addField("Music", Music.toString(), false)
 					.addField("Games", Games.toString(), false);
 
 			channel.sendMessageEmbeds(info.build()).queue();
-
 			return;
 		}
 

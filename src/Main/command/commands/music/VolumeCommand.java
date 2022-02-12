@@ -11,6 +11,7 @@ import Main.command.CommandContext;
 import Main.command.ICommand;
 import Main.music.lavaplayer.GuildMusicManager;
 import Main.music.lavaplayer.PlayerManager;
+import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
@@ -55,7 +56,7 @@ public class VolumeCommand implements ICommand{
 			
 			int newval = Integer.parseInt(n1);
 			
-			EmbedBuilder usage = new EmbedBuilder().
+			EmbedBuilder usage = EmbedUtils.getDefaultEmbed().
 					setColor(Color.ORANGE)
 					.setTitle("Volume updated")
 					.setDescription("From: " + current + " to: " + newval);

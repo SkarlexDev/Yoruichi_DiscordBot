@@ -14,6 +14,7 @@ public class CommandContext implements ICommandContext {
     public CommandContext(GuildMessageReceivedEvent event, List<String> args) {
         this.event = event;
         this.args = args;
+        
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import Main.BotRun;
 import Main.command.CommandContext;
 import Main.command.ICommand;
+import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -28,7 +29,7 @@ public class ClearCommand implements ICommand {
 		}
 		
 		if(size==0) {			
-			EmbedBuilder usage = new EmbedBuilder()
+			EmbedBuilder usage = EmbedUtils.getDefaultEmbed()
 					.setColor(Color.ORANGE)
 					.setTitle("Specify amount to delete")
 					.setDescription("Usage: `" + BotRun.prefix + "clear [# ammount of messages]`");
@@ -64,7 +65,7 @@ public class ClearCommand implements ICommand {
 				channel.deleteMessages(messages).queue();
 
 				// Success
-				EmbedBuilder success = new EmbedBuilder()
+				EmbedBuilder success = EmbedUtils.getDefaultEmbed()
 						.setColor(Color.GREEN)
 						.setTitle("Successfully deleted " + n1 + " messags.");
 				MessageEmbed msg = success.build();
@@ -75,7 +76,7 @@ public class ClearCommand implements ICommand {
 			} catch (IllegalArgumentException e) {
 				if (e.toString().startsWith("java.lang.IllegalArgumentException: Message retrieval")) {
 					// Too many messages
-					EmbedBuilder error = new EmbedBuilder()
+					EmbedBuilder error = EmbedUtils.getDefaultEmbed()
 							.setColor(Color.RED)
 							.setTitle("Too many messages selected")
 							.setDescription("You can delete between 1-100 messages.");
@@ -88,7 +89,7 @@ public class ClearCommand implements ICommand {
 			}
 		} else {
 			// Usage of command
-			EmbedBuilder usage = new EmbedBuilder()
+			EmbedBuilder usage = EmbedUtils.getDefaultEmbed()
 					.setColor(Color.ORANGE)
 					.setTitle("Specify amount to delete")
 					.setDescription("Usage: `" + BotRun.prefix + "clear [# ammount of messages]`");
