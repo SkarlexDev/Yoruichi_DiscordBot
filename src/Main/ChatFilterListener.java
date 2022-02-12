@@ -1,10 +1,13 @@
 package Main;
 
-import java.util.concurrent.TimeUnit;
 
+import java.util.concurrent.TimeUnit;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.entities.GuildVoiceState;
+import net.dv8tion.jda.api.entities.Member;
 
 public class ChatFilterListener extends ListenerAdapter {
 
@@ -33,10 +36,18 @@ public class ChatFilterListener extends ListenerAdapter {
 			 Temp mute
 			 need support for 5.0.0-alpha.4 (Timeout)			 
 			 */
+			
+			Member member = event.getMember();
+			GuildVoiceState memberVoiceState = member.getVoiceState();
+
+			if(memberVoiceState.inVoiceChannel()) {
+				event.getGuild().kickVoiceMember(member).queue();
+			}
+			
 			event.getChannel().sendMessageEmbeds(embed.build()).queue();
-			event.getGuild().addRoleToMember(event.getAuthor().getId(), event.getGuild().getRoleById("734041934938505267")).queue();
-			event.getGuild().removeRoleFromMember(event.getAuthor().getId(), event.getGuild().getRoleById("734041934938505267")).queueAfter(deltaTime, TimeUnit.SECONDS);
-			event.getChannel().sendMessage(event.getAuthor().getAsMention() + " unmuted!").queueAfter(deltaTime + 1, TimeUnit.SECONDS);
+			event.getGuild().addRoleToMember(member.getId(), event.getGuild().getRoleById("734041934938505267")).queue();
+			event.getGuild().removeRoleFromMember(member.getId(), event.getGuild().getRoleById("734041934938505267")).queueAfter(deltaTime, TimeUnit.SECONDS);
+			event.getChannel().sendMessage(member.getAsMention() + " unmuted!").queueAfter(deltaTime + 1, TimeUnit.SECONDS);
 			
 		}
 	}
