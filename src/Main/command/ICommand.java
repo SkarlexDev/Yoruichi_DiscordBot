@@ -10,8 +10,15 @@ public interface ICommand {
     String getHelp();
     
     String getCategory();
-
+    
+    void setState(Boolean state) throws Exception;    
+    Boolean getState();
+    
     default List<String> getAliases() {
         return List.of();
     }
+
+	
+    
+    
 }

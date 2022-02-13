@@ -16,12 +16,18 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class QueueCommand implements ICommand {
+	public Boolean state = true;
 	@Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
         final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(ctx.getGuild());
         final BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
-
+       
+        if(!this.state) {
+			channel.sendMessage("This command is disabled!").queue();
+			return;
+		}
+        
         if (queue.isEmpty()) {
             channel.sendMessage("The queue is currently empty").queue();
             return;
@@ -77,5 +83,15 @@ public class QueueCommand implements ICommand {
     @Override
 	public String getCategory() {
 		return "Music";
+	}
+    @Override
+	public void setState(Boolean state) {
+		this.state = state;
+		
+	}
+
+	@Override
+	public Boolean getState() {
+		return this.state;
 	}
 }

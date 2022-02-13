@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class KickCommand implements ICommand {
+	public Boolean state = true;
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
@@ -19,6 +20,11 @@ public class KickCommand implements ICommand {
         final Member member = ctx.getMember();
         final List<String> args = ctx.getArgs();
 
+        if(!this.state) {
+			channel.sendMessage("This command is disabled!").queue();
+			return;
+		}
+        
         if (args.size() < 2 || message.getMentionedMembers().isEmpty()) {
             channel.sendMessage("Missing arguments").queue();
             return;
@@ -63,5 +69,16 @@ public class KickCommand implements ICommand {
     @Override
 	public String getCategory() {
 		return "Moderation";
+	}
+    
+    @Override
+	public void setState(Boolean state) {
+		this.state = state;
+		
+	}
+
+	@Override
+	public Boolean getState() {
+		return this.state;
 	}
 }

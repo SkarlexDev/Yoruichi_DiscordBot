@@ -1,7 +1,7 @@
 package Main.command.commands.moderation;
 
 import java.awt.Color;
-import java.util.*;
+import java.util.List;
 
 import javax.naming.directory.InvalidAttributesException;
 
@@ -13,26 +13,21 @@ import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-public class HelpCommand implements ICommand {
-
+public class SwitchCommand implements ICommand{
 	public final Boolean state = true;
+
 	private final CommandManager manager;
 
 
-	public HelpCommand(CommandManager manager) {
+	public SwitchCommand(CommandManager manager) {
 		this.manager = manager;
 	}
 
 	@Override
 	public void handle(CommandContext ctx) {
+		final TextChannel channel = ctx.getChannel();
 		List<String> args = ctx.getArgs();
-		TextChannel channel = ctx.getChannel();
-		
-		if(!this.state) {
-			channel.sendMessage("This command is disabled!").queue();
-			return;
-		}
-		
+		int size = ctx.getArgs().size();
 		if (args.isEmpty()) {
 			
 			StringBuilder Fun = new StringBuilder();
@@ -45,23 +40,28 @@ public class HelpCommand implements ICommand {
 			for (ICommand cmd : allcommands) 
 			{ 
 				String it = cmd.getName();
+				Boolean enabled = cmd.getState();
+				//System.out.println(it + " " + enabled);
+				String status = enabled==true ? "Enabled" : "Disabled";
+								
+				
 			    if (cmd.getCategory().equalsIgnoreCase("Fun")) {
-			    	Fun.append('`').append(it).append("` ");
+			    	Fun.append('`').append(it).append(": " + status).append("` \n");
 				}
 			    if (cmd.getCategory().equalsIgnoreCase("Moderation")) {
-					Moderation.append('`').append(it).append("` ");
+					Moderation.append('`').append(it).append(": " + status).append("` \n");
 				}
 				if (cmd.getCategory().equalsIgnoreCase("Music")) {
-					Music.append('`').append(it).append("` ");
+					Music.append('`').append(it).append(": " + status).append("` \n");
 				}
 				if (cmd.getCategory().equalsIgnoreCase("Games")) {
-					Games.append('`').append(it).append("` ");
+					Games.append('`').append(it).append(": " + status).append("` \n");
 				}
 			}
 			
 			EmbedBuilder info = EmbedUtils.getDefaultEmbed().
 					setColor(Color.GREEN).
-					setAuthor("Help command", null,	ctx.getSelfUser().getAvatarUrl())
+					setAuthor("Command Manager", null, ctx.getSelfUser().getAvatarUrl())
 					.addField("Fun", Fun.toString(), false)
 					.addField("Moderation", Moderation.toString(), false)
 					.addField("Music", Music.toString(), false)
@@ -70,38 +70,46 @@ public class HelpCommand implements ICommand {
 			channel.sendMessageEmbeds(info.build()).queue();
 			return;
 		}
+		
+		if(size == 1) {
+			String search = args.get(0);
+			ICommand command = manager.getCommand(search);
 
-		String search = args.get(0);
-		ICommand command = manager.getCommand(search);
+			if (command == null) {
+				channel.sendMessage("Nothing found for " + search).queue();
+				return;
+			}
 
-		if (command == null) {
-			channel.sendMessage("Nothing found for " + search).queue();
-			return;
+			try {
+				command.setState(!command.getState());
+				String status = command.getState()==true ? "Enabled" : "Disabled";
+				channel.sendMessage("Command is now: " + status).queue();
+			} catch (Exception e) {
+				channel.sendMessage("Sadly you cannot disable this command!").queue();
+			}
+			
 		}
+		
 
-		channel.sendMessage(command.getHelp()).queue();
+		
 	}
 
 	@Override
 	public String getName() {
-		return "help";
+		return "switch";
 	}
 
 	@Override
 	public String getHelp() {
-		return "Shows the list with commands in the bot\n" + "Usage: `" + BotRun.prefix + "help [command]`";
-	}
-
-	@Override
-	public List<String> getAliases() {
-		return List.of("commands", "cmds", "commandlist");
+		return "Disables/Enables commands\n"
+				+ "Ussage: `" + BotRun.prefix + "switch [command name/alias]`";
 	}
 
 	@Override
 	public String getCategory() {
 		return "Moderation";
 	}
-
+	
 	@Override
 	public void setState(Boolean state) throws Exception {
 		throw new InvalidAttributesException();
@@ -111,4 +119,10 @@ public class HelpCommand implements ICommand {
 	public Boolean getState() {
 		return this.state;
 	}
+	
+	@Override
+	public List<String> getAliases() {
+		return List.of("s","sw");
+	}
+
 }

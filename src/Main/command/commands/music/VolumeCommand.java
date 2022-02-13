@@ -17,6 +17,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 public class VolumeCommand implements ICommand{
 
+	public Boolean state = true;
 	@Override
 	public void handle(CommandContext ctx) {
 		int delTime = 3;
@@ -25,6 +26,11 @@ public class VolumeCommand implements ICommand{
 		AudioPlayer audioPlayer = musicManager.audioPlayer;
 		String current = String.valueOf(audioPlayer.getVolume());
 		List<String> args = ctx.getArgs();
+		
+		if(!this.state) {
+			channel.sendMessage("This command is disabled!").queue();
+			return;
+		}
 		
 		if(args.size()==0) {			
 			channel.sendMessage("Current volume: "+ current+ "\n" + "Change music volume\n" + "`"+BotRun.prefix+"volume [# 0-100]`").queue();
@@ -89,6 +95,16 @@ public class VolumeCommand implements ICommand{
 		return "Music";
 	}
 	
+	@Override
+	public void setState(Boolean state) {
+		this.state = state;
+		
+	}
+
+	@Override
+	public Boolean getState() {
+		return this.state;
+	}
 	
 
 }

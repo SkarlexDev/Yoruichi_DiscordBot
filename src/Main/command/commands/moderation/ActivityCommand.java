@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.entities.User;
 
 public class ActivityCommand implements ICommand{
 
+	public Boolean state = true;
 	@Override
 	public void handle(CommandContext ctx) {
 		final TextChannel channel = ctx.getChannel();
@@ -24,6 +25,11 @@ public class ActivityCommand implements ICommand{
 			return;
 		}
 		*/
+		
+		if(!this.state) {
+			channel.sendMessage("This command is disabled!").queue();
+			return;
+		}
 		
 		if(size==0 || size == 1) {			
 			EmbedBuilder usage = EmbedUtils.getDefaultEmbed()
@@ -99,6 +105,7 @@ public class ActivityCommand implements ICommand{
 				+ "Ussage: `"+BotRun.prefix+"activity [#type (w,c,l,p,s)][activity name]`\n"
 				+ "Shortcuts for `[(Watching - w, Competing - c, Listening - l, Playing - p, Streaming - s)]`\n"
 				+ "Aliases: `" + this.getAliases() + "`";
+
 	}
 
 	@Override
@@ -110,5 +117,17 @@ public class ActivityCommand implements ICommand{
 	public List<String> getAliases() {
 		return List.of("act");
 	}
+
+	@Override
+	public void setState(Boolean state) {
+		this.state = state;
+		
+	}
+
+	@Override
+	public Boolean getState() {
+		return this.state;
+	}
+	
 
 }

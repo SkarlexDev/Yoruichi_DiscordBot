@@ -14,10 +14,15 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class RioCommand implements ICommand {
+	public Boolean state = true;
 	@Override
 	public void handle(CommandContext ctx) {
 		final TextChannel channel = ctx.getChannel();
 		List<String> args = ctx.getArgs();
+		if(!this.state) {
+			channel.sendMessage("This command is disabled!").queue();
+			return;
+		}
 		if (ctx.getArgs().isEmpty()) {
 			channel.sendMessage("Correct usage is `"+BotRun.prefix+"rio [name][realm]`").queue();
 			return;
@@ -96,6 +101,17 @@ public class RioCommand implements ICommand {
 	@Override
 	public String getCategory() {
 		return "Games";
+	}
+	
+	@Override
+	public void setState(Boolean state) {
+		this.state = state;
+		
+	}
+
+	@Override
+	public Boolean getState() {
+		return this.state;
 	}
 
 }

@@ -11,12 +11,18 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 public class LeaveCommand implements ICommand {
+	public Boolean state = true;
     @Override
     public void handle(CommandContext ctx) {
     	final TextChannel channel = ctx.getChannel();
         final Member self = ctx.getSelfMember();
         final GuildVoiceState selfVoiceState = self.getVoiceState();
 
+        if(!this.state) {
+			channel.sendMessage("This command is disabled!").queue();
+			return;
+		}
+        
         if (!selfVoiceState.inVoiceChannel()) {
             channel.sendMessage("I need to be in a voice channel for this to work").queue();
             return;
@@ -64,5 +70,16 @@ public class LeaveCommand implements ICommand {
     @Override
 	public String getCategory() {
 		return "Music";
+	}
+    
+    @Override
+	public void setState(Boolean state) {
+		this.state = state;
+		
+	}
+
+	@Override
+	public Boolean getState() {
+		return this.state;
 	}
 }

@@ -13,10 +13,16 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 public class PlayCommand implements ICommand {
+	public Boolean state = true;
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
 
+        if(!this.state) {
+			channel.sendMessage("This command is disabled!").queue();
+			return;
+		}
+        
         if (ctx.getArgs().isEmpty()) {
             channel.sendMessage("Correct usage is `!!play <youtube link>`").queue();
             return;
@@ -101,4 +107,15 @@ public class PlayCommand implements ICommand {
             return false;
         }
     }
+    
+    @Override
+	public void setState(Boolean state) {
+		this.state = state;
+		
+	}
+
+	@Override
+	public Boolean getState() {
+		return this.state;
+	}
 }

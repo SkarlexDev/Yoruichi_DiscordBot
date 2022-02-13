@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
 public class ClearCommand implements ICommand {
+	public Boolean state = true;
 	@Override
 	public void handle(CommandContext ctx) {
 		final TextChannel channel = ctx.getChannel();
@@ -23,6 +24,10 @@ public class ClearCommand implements ICommand {
 		int size = ctx.getArgs().size();
 		int delTime = 5;
 
+		if(!this.state) {
+			channel.sendMessage("This command is disabled!").queue();
+			return;
+		}
 		if (!user.getId().equals(BotRun.owner)) {
 			channel.sendMessage("You are not allowed to use this command!").queue();
 			return;
@@ -124,5 +129,16 @@ public class ClearCommand implements ICommand {
 		} catch (Exception ignored) {
 			return false;
 		}
+	}
+	
+	@Override
+	public void setState(Boolean state) {
+		this.state = state;
+		
+	}
+
+	@Override
+	public Boolean getState() {
+		return this.state;
 	}
 }

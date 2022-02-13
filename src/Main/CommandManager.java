@@ -29,6 +29,7 @@ public class CommandManager {
         addCommand(new KickCommand());
         addCommand(new ClearCommand());
         addCommand(new ActivityCommand());
+        addCommand(new SwitchCommand(this));
         // music
         addCommand(new JoinCommand());
         addCommand(new LeaveCommand());
@@ -79,7 +80,6 @@ public class CommandManager {
         ICommand cmd = this.getCommand(invoke);
 
         if (cmd != null) {
-            event.getChannel().sendTyping().queue();
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
             CommandContext ctx = new CommandContext(event, args);

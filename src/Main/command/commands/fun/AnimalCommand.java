@@ -19,11 +19,17 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.internal.utils.IOUtil;
 
 public class AnimalCommand implements ICommand {
+	public Boolean state = true;
 	@Override
 	public void handle(CommandContext ctx) {
 		final TextChannel channel = ctx.getChannel();
 		List<String> args = ctx.getArgs();
+		
 
+		if(!this.state) {
+			channel.sendMessage("This command is disabled!").queue();
+			return;
+		}
 		if (ctx.getArgs().isEmpty()) {
 			channel.sendMessage("Correct usage is `" + BotRun.prefix +"animal [type]`").queue();
 			return;
@@ -92,5 +98,16 @@ public class AnimalCommand implements ICommand {
 	@Override
 	public List<String> getAliases() {
 		return List.of("a", "anim", "pet");
+	}
+
+	@Override
+	public void setState(Boolean state) {
+		this.state = state;
+		
+	}
+
+	@Override
+	public Boolean getState() {
+		return this.state;
 	}
 }

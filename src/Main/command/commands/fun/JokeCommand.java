@@ -10,10 +10,15 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class JokeCommand implements ICommand {
+	public Boolean state = true;
 	@Override
 	public void handle(CommandContext ctx) {
 		final TextChannel channel = ctx.getChannel();
 
+		if(!this.state) {
+			channel.sendMessage("This command is disabled!").queue();
+			return;
+		}
 		WebUtils.ins.getJSONObject("https://apis.duncte123.me/joke").async((json) -> {
 			if (!json.get("success").asBoolean()) {
 				channel.sendMessage("Something went wrong, try again later").queue();
@@ -48,5 +53,16 @@ public class JokeCommand implements ICommand {
 	@Override
 	public String getCategory() {
 		return "Fun";
+	}
+	
+	@Override
+	public void setState(Boolean state) {
+		this.state = state;
+		
+	}
+
+	@Override
+	public Boolean getState() {
+		return this.state;
 	}
 }
