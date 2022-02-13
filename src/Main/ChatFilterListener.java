@@ -14,7 +14,7 @@ public class ChatFilterListener extends ListenerAdapter {
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		String[] args = event.getMessage().getContentRaw().split(" ");
-		int deltaTime = 60;
+		int deltaTime = Integer.parseInt(System.getenv("MUTETIMER"));
 		StringBuilder fl = new StringBuilder();
 		
 		for (String arg : args) {
@@ -28,7 +28,7 @@ public class ChatFilterListener extends ListenerAdapter {
 					.setThumbnail(event.getAuthor().getAvatarUrl())
 					.addField("Victim", event.getAuthor().getName(), false)
 					.addField("Input", fl.toString(), false)
-					.addField("Muted", "60 sec", false)
+					.addField("Muted", deltaTime + " sec", false)
 					.setFooter("For help do nothing");
 			
 			/*
