@@ -11,14 +11,17 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class MemeCommand implements ICommand {
-	public Boolean state = true;
+	private Boolean state = true;
+	
 	@Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
-        if(!this.state) {
-			channel.sendMessage("This command is disabled!").queue();
+        	
+		if(!this.state) {
+			ctx.getDisabled(channel);
 			return;
 		}
+		
         WebUtils.ins.getJSONObject("https://apis.duncte123.me/meme").async((json) -> {
             if (!json.get("success").asBoolean()) {
                 channel.sendMessage("Something went wrong, try again later").queue();
@@ -60,5 +63,10 @@ public class MemeCommand implements ICommand {
 	@Override
 	public Boolean getState() {
 		return this.state;
+	}
+	
+	@Override
+	public void showHelp(CommandContext ctx, TextChannel channel) {
+		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
 	}
 }

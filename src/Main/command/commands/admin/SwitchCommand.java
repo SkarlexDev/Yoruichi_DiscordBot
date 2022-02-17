@@ -1,4 +1,4 @@
-package Main.command.commands.moderation;
+package Main.command.commands.admin;
 
 import java.awt.Color;
 import java.util.List;
@@ -14,10 +14,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class SwitchCommand implements ICommand{
-	public final Boolean state = true;
-
+	private final Boolean state = true;
 	private final CommandManager manager;
-
 
 	public SwitchCommand(CommandManager manager) {
 		this.manager = manager;
@@ -27,7 +25,13 @@ public class SwitchCommand implements ICommand{
 	public void handle(CommandContext ctx) {
 		final TextChannel channel = ctx.getChannel();
 		List<String> args = ctx.getArgs();
-		int size = ctx.getArgs().size();
+		int size = ctx.getArgs().size();		
+		
+		if(!ctx.checkRolePermision(ctx.getMember().getRoles())) {
+			ctx.getPermisionDenied(channel);
+			return;
+		}		
+		
 		if (args.isEmpty()) {
 			
 			StringBuilder Fun = new StringBuilder();
@@ -107,7 +111,7 @@ public class SwitchCommand implements ICommand{
 
 	@Override
 	public String getCategory() {
-		return "Moderation";
+		return "Admin";
 	}
 	
 	@Override
@@ -123,6 +127,11 @@ public class SwitchCommand implements ICommand{
 	@Override
 	public List<String> getAliases() {
 		return List.of("s","sw");
+	}
+	
+	@Override
+	public void showHelp(CommandContext ctx, TextChannel channel) {
+		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
 	}
 
 }

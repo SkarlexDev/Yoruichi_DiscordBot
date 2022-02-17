@@ -9,7 +9,8 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 public class JoinCommand implements ICommand {
-	public Boolean state = true;
+	private Boolean state = true;
+	
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
@@ -21,7 +22,7 @@ public class JoinCommand implements ICommand {
         final VoiceChannel memberChannel = memberVoiceState.getChannel();
 
         if(!this.state) {
-			channel.sendMessage("This command is disabled!").queue();
+			ctx.getDisabled(channel);
 			return;
 		}
         
@@ -74,5 +75,10 @@ public class JoinCommand implements ICommand {
 	@Override
 	public Boolean getState() {
 		return this.state;
+	}
+	
+	@Override
+	public void showHelp(CommandContext ctx, TextChannel channel) {
+		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
 	}
 }

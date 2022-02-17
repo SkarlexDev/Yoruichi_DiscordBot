@@ -3,9 +3,11 @@ package Main.command.commands.moderation;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 public class PingCommand implements ICommand {
-	public Boolean state = true;
+	private Boolean state = true;
+	
     @Override
     public void handle(CommandContext ctx) {
         JDA jda = ctx.getJDA();
@@ -44,6 +46,11 @@ public class PingCommand implements ICommand {
 	@Override
 	public Boolean getState() {
 		return this.state;
+	}
+	
+	@Override
+	public void showHelp(CommandContext ctx, TextChannel channel) {
+		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
 	}
 
 }

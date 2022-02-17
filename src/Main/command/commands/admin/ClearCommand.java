@@ -1,4 +1,4 @@
-package Main.command.commands.moderation;
+package Main.command.commands.admin;
 
 import java.awt.Color;
 import java.net.URL;
@@ -16,32 +16,27 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
 public class ClearCommand implements ICommand {
-	public Boolean state = true;
+	private Boolean state = true;
+	
 	@Override
 	public void handle(CommandContext ctx) {
 		final TextChannel channel = ctx.getChannel();
-		final User user = ctx.getAuthor();
 		int size = ctx.getArgs().size();
 		int delTime = 5;
 
+		if(!ctx.checkRolePermision(ctx.getMember().getRoles())) {
+			ctx.getPermisionDenied(channel);
+			return;
+		}		
 		if(!this.state) {
-			channel.sendMessage("This command is disabled!").queue();
+			ctx.getDisabled(channel);
 			return;
 		}
-		if (!user.getId().equals(BotRun.owner)) {
-			channel.sendMessage("You are not allowed to use this command!").queue();
+		if (ctx.getArgs().isEmpty()) {
+			this.showHelp(ctx, channel);
 			return;
 		}
 		
-		if(size==0) {			
-			EmbedBuilder usage = EmbedUtils.getDefaultEmbed()
-					.setColor(Color.ORANGE)
-					.setTitle("Specify amount to delete")
-					.setDescription("Usage: `" + BotRun.prefix + "clear [# ammount of messages]`");
-			channel.sendMessageEmbeds(usage.build()).queue();
-			usage.clear();
-			return;
-		}
 		String n1 = ctx.getArgs().get(0);
 
 		if (!n1.equalsIgnoreCase("all")) {
@@ -110,11 +105,11 @@ public class ClearCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Clears messages\n" + "Usage: `"+BotRun.prefix+"clear [# ammount of messages]`";
+		return "Clears messages\n" + "Usage: `"+BotRun.prefix+"clear [# ammount of messages 0-100 / all = 100]`";
 	}
 	@Override
 	public String getCategory() {
-		return "Moderation";
+		return "Admin";
 	}
 	
 	@Override
@@ -140,5 +135,10 @@ public class ClearCommand implements ICommand {
 	@Override
 	public Boolean getState() {
 		return this.state;
+	}
+	
+	@Override
+	public void showHelp(CommandContext ctx, TextChannel channel) {
+		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
 	}
 }

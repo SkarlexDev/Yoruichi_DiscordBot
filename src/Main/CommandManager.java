@@ -4,6 +4,10 @@ import javax.annotation.Nullable;
 
 import Main.command.CommandContext;
 import Main.command.ICommand;
+import Main.command.commands.admin.ActivityCommand;
+import Main.command.commands.admin.ClearCommand;
+import Main.command.commands.admin.KickCommand;
+import Main.command.commands.admin.SwitchCommand;
 import Main.command.commands.fun.*;
 import Main.command.commands.games.RioCommand;
 import Main.command.commands.moderation.*;

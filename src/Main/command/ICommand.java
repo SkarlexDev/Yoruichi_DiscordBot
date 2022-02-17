@@ -2,6 +2,8 @@ package Main.command;
 
 import java.util.List;
 
+import net.dv8tion.jda.api.entities.TextChannel;
+
 public interface ICommand {
     void handle(CommandContext ctx);
 
@@ -11,7 +13,10 @@ public interface ICommand {
     
     String getCategory();
     
-    void setState(Boolean state) throws Exception;    
+    void setState(Boolean state) throws Exception;
+    
+    void showHelp(CommandContext ctx, TextChannel channel);
+    
     Boolean getState();
     
     default List<String> getAliases() {

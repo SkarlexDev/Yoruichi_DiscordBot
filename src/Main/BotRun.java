@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 public class BotRun {
 
@@ -31,8 +33,11 @@ public class BotRun {
 		JDABuilder.createDefault(Token)				
 		.setActivity(Activity.watching("Bleach"))
 		.setStatus(OnlineStatus.ONLINE)
+		.enableIntents(GatewayIntent.GUILD_PRESENCES)
+		.enableCache(CacheFlag.ACTIVITY)
         .addEventListeners(new Listener())
         .addEventListeners(new ChatFilterListener())
+        //.addEventListeners(new GameTracker()) // testing
         .build();		
 		EmbedUtils.setEmbedBuilder(
                 () -> new EmbedBuilder()

@@ -1,4 +1,4 @@
-package Main.command.commands.moderation;
+package Main.command.commands.admin;
 
 
 import java.util.List;
@@ -12,7 +12,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class KickCommand implements ICommand {
-	public Boolean state = true;
+	private Boolean state = true;
+	
     @Override
     public void handle(CommandContext ctx) {
         final TextChannel channel = ctx.getChannel();
@@ -20,13 +21,17 @@ public class KickCommand implements ICommand {
         final Member member = ctx.getMember();
         final List<String> args = ctx.getArgs();
 
-        if(!this.state) {
-			channel.sendMessage("This command is disabled!").queue();
+        if(!ctx.checkRolePermision(ctx.getMember().getRoles())) {
+			ctx.getPermisionDenied(channel);
+			return;
+		}		
+		if(!this.state) {
+			ctx.getDisabled(channel);
 			return;
 		}
         
         if (args.size() < 2 || message.getMentionedMembers().isEmpty()) {
-            channel.sendMessage("Missing arguments").queue();
+        	this.showHelp(ctx, channel);
             return;
         }
 
@@ -68,7 +73,7 @@ public class KickCommand implements ICommand {
     
     @Override
 	public String getCategory() {
-		return "Moderation";
+		return "Admin";
 	}
     
     @Override
@@ -80,5 +85,10 @@ public class KickCommand implements ICommand {
 	@Override
 	public Boolean getState() {
 		return this.state;
+	}
+	
+	@Override
+	public void showHelp(CommandContext ctx, TextChannel channel) {
+		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
 	}
 }

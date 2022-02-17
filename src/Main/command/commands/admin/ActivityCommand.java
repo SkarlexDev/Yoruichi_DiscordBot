@@ -1,4 +1,4 @@
-package Main.command.commands.moderation;
+package Main.command.commands.admin;
 
 import java.awt.Color;
 import java.util.List;
@@ -13,33 +13,26 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
 public class ActivityCommand implements ICommand{
-
-	public Boolean state = true;
+	private Boolean state = true;
+	
 	@Override
 	public void handle(CommandContext ctx) {
 		final TextChannel channel = ctx.getChannel();
 		int size = ctx.getArgs().size();
-		/*
-		if (!user.getId().equals(BotRun.owner)) {
-			channel.sendMessage("You are not allowed to use this command!").queue();
-			return;
-		}
-		*/
 		
+		if(!ctx.checkRolePermision(ctx.getMember().getRoles())) {
+			ctx.getPermisionDenied(channel);
+			return;
+		}		
 		if(!this.state) {
-			channel.sendMessage("This command is disabled!").queue();
+			ctx.getDisabled(channel);
 			return;
 		}
-		
-		if(size==0 || size == 1) {			
-			EmbedBuilder usage = EmbedUtils.getDefaultEmbed()
-					.setColor(Color.ORANGE)
-					.setTitle("Specify activity")
-					.setDescription("Usage: `" + BotRun.prefix + "activity [activityType][activity]`");
-			channel.sendMessageEmbeds(usage.build()).queue();
-			usage.clear();
+		if (ctx.getArgs().isEmpty() || size == 1) {
+			this.showHelp(ctx, channel);
 			return;
 		}
+
 		
 		String activityType = ctx.getArgs().get(0).toLowerCase();
 		String activity;
@@ -110,7 +103,7 @@ public class ActivityCommand implements ICommand{
 
 	@Override
 	public String getCategory() {
-		return "Moderation";
+		return "Admin";
 	}
 	
 	@Override
@@ -127,6 +120,11 @@ public class ActivityCommand implements ICommand{
 	@Override
 	public Boolean getState() {
 		return this.state;
+	}
+	
+	@Override
+	public void showHelp(CommandContext ctx, TextChannel channel) {
+		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
 	}
 	
 

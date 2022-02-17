@@ -14,8 +14,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class HelpCommand implements ICommand {
-
-	public final Boolean state = true;
+	private final Boolean state = true;
 	private final CommandManager manager;
 
 
@@ -28,17 +27,13 @@ public class HelpCommand implements ICommand {
 		List<String> args = ctx.getArgs();
 		TextChannel channel = ctx.getChannel();
 		
-		if(!this.state) {
-			channel.sendMessage("This command is disabled!").queue();
-			return;
-		}
-		
 		if (args.isEmpty()) {
 			
 			StringBuilder Fun = new StringBuilder();
 			StringBuilder Moderation = new StringBuilder();
 			StringBuilder Music = new StringBuilder();
 			StringBuilder Games = new StringBuilder();
+			StringBuilder Admin = new StringBuilder();
 
 			List<ICommand> allcommands = manager.getCommands();
 			
@@ -57,6 +52,9 @@ public class HelpCommand implements ICommand {
 				if (cmd.getCategory().equalsIgnoreCase("Games")) {
 					Games.append('`').append(it).append("` ");
 				}
+				if (cmd.getCategory().equalsIgnoreCase("Admin")) {
+					Admin.append('`').append(it).append("` ");
+				}
 			}
 			
 			EmbedBuilder info = EmbedUtils.getDefaultEmbed().
@@ -68,6 +66,19 @@ public class HelpCommand implements ICommand {
 					.addField("Games", Games.toString(), false);
 
 			channel.sendMessageEmbeds(info.build()).queue();
+			
+			
+			if(ctx.checkRolePermision(ctx.getMember().getRoles())) {
+				EmbedBuilder adminInfo = EmbedUtils.getDefaultEmbed().
+						setColor(Color.GREEN).
+						setAuthor("Admin Commands", null, ctx.getSelfUser().getAvatarUrl())
+						.addField("Commands", Admin.toString(), false);
+	
+
+				ctx.getAuthor().openPrivateChannel().complete().sendMessageEmbeds(adminInfo.build()).queue();
+				
+			}		
+			
 			return;
 		}
 
@@ -79,7 +90,8 @@ public class HelpCommand implements ICommand {
 			return;
 		}
 
-		channel.sendMessage(command.getHelp()).queue();
+		//channel.sendMessage(command.getHelp()).queue();
+		command.showHelp(ctx,channel);
 	}
 
 	@Override
@@ -110,5 +122,10 @@ public class HelpCommand implements ICommand {
 	@Override
 	public Boolean getState() {
 		return this.state;
+	}
+
+	@Override
+	public void showHelp(CommandContext ctx, TextChannel channel) {
+		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
 	}
 }
