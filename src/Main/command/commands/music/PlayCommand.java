@@ -3,7 +3,7 @@ package Main.command.commands.music;
 import java.net.URL;
 import java.util.List;
 
-import Main.BotRun;
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import Main.music.lavaplayer.PlayerManager;
@@ -13,7 +13,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 public class PlayCommand implements ICommand {
-	private Boolean state = true;
+	private Boolean state;
 	
     @Override
     public void handle(CommandContext ctx) {
@@ -52,7 +52,7 @@ public class PlayCommand implements ICommand {
             }
 
             if (!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-                ctx.getChannel().sendMessage("You are in different channel use `"+BotRun.prefix+"join`").queue();
+                ctx.getChannel().sendMessage("You are in different channel use `"+Yoruichi.prefix+"join`").queue();
                 return;
             }
             break;
@@ -84,7 +84,7 @@ public class PlayCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Plays a song\n" +
-                "Usage: `"+BotRun.prefix+"play <youtube link>`\n"
+                "Usage: `"+Yoruichi.prefix+"play <youtube link>`\n"
         		+ "Aliases: `" + this.getAliases() + "`";
         
         

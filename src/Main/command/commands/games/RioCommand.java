@@ -2,10 +2,11 @@ package Main.command.commands.games;
 
 import java.awt.Color;
 import java.util.List;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import Main.BotRun;
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -14,7 +15,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class RioCommand implements ICommand {
-	private Boolean state = true;
+	private Boolean state;
 	
 	@Override
 	public void handle(CommandContext ctx) {
@@ -83,7 +84,7 @@ public class RioCommand implements ICommand {
 
 					});
 		} else {
-			channel.sendMessage("Correct usage is `"+BotRun.prefix+"rio [name][realm]`").queue();
+			channel.sendMessage("Correct usage is `"+Yoruichi.prefix+"rio [name][realm]`").queue();
 			return;
 		}
 
@@ -97,7 +98,7 @@ public class RioCommand implements ICommand {
 	@Override
 	public String getHelp() {
 		return "Shows a wow raider.io stats\n"
-				+ "Correct usage is `"+BotRun.prefix+"rio [name][realm]`";
+				+ "Correct usage is `"+Yoruichi.prefix+"rio [name][realm]`";
 	}
 
 	@Override

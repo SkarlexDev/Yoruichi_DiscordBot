@@ -3,17 +3,16 @@ package Main.command.commands.admin;
 import java.awt.Color;
 import java.util.List;
 
-import Main.BotRun;
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 
 public class ActivityCommand implements ICommand{
-	private Boolean state = true;
+	private Boolean state;
 	
 	@Override
 	public void handle(CommandContext ctx) {
@@ -95,7 +94,7 @@ public class ActivityCommand implements ICommand{
 	@Override
 	public String getHelp() {
 		return "Changes bot activity\n"
-				+ "Ussage: `"+BotRun.prefix+"activity [#type (w,c,l,p,s)][activity name]`\n"
+				+ "Ussage: `"+Yoruichi.prefix+"activity [#type (w,c,l,p,s)][activity name]`\n"
 				+ "Shortcuts for `[(Watching - w, Competing - c, Listening - l, Playing - p, Streaming - s)]`\n"
 				+ "Aliases: `" + this.getAliases() + "`";
 

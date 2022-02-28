@@ -13,7 +13,7 @@ public interface ICommand {
     
     String getCategory();
     
-    void setState(Boolean state) throws Exception;
+    void setState(Boolean state);
     
     void showHelp(CommandContext ctx, TextChannel channel);
     

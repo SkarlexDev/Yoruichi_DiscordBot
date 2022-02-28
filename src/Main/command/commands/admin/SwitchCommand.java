@@ -3,18 +3,17 @@ package Main.command.commands.admin;
 import java.awt.Color;
 import java.util.List;
 
-import javax.naming.directory.InvalidAttributesException;
-
-import Main.BotRun;
 import Main.CommandManager;
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
+import Main.database.DatabaseManager;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class SwitchCommand implements ICommand{
-	private final Boolean state = true;
+	private Boolean state;
 	private final CommandManager manager;
 
 	public SwitchCommand(CommandManager manager) {
@@ -38,6 +37,7 @@ public class SwitchCommand implements ICommand{
 			StringBuilder Moderation = new StringBuilder();
 			StringBuilder Music = new StringBuilder();
 			StringBuilder Games = new StringBuilder();
+			StringBuilder Admin = new StringBuilder();
 
 			List<ICommand> allcommands = manager.getCommands();
 			
@@ -45,7 +45,6 @@ public class SwitchCommand implements ICommand{
 			{ 
 				String it = cmd.getName();
 				Boolean enabled = cmd.getState();
-				//System.out.println(it + " " + enabled);
 				String status = enabled==true ? "Enabled" : "Disabled";
 								
 				
@@ -61,15 +60,20 @@ public class SwitchCommand implements ICommand{
 				if (cmd.getCategory().equalsIgnoreCase("Games")) {
 					Games.append('`').append(it).append(": " + status).append("` \n");
 				}
+				if (cmd.getCategory().equalsIgnoreCase("Admin")) {
+					Admin.append('`').append(it).append(": " + status).append("` \n");
+				}
 			}
 			
 			EmbedBuilder info = EmbedUtils.getDefaultEmbed().
 					setColor(Color.GREEN).
 					setAuthor("Command Manager", null, ctx.getSelfUser().getAvatarUrl())
-					.addField("Fun", Fun.toString(), false)
-					.addField("Moderation", Moderation.toString(), false)
-					.addField("Music", Music.toString(), false)
-					.addField("Games", Games.toString(), false);
+					.addField("Admin", Admin.toString(), true)
+					.addField("Music", Music.toString(), true)
+					.addField("Fun", Fun.toString(), true)
+					.addField("Moderation", Moderation.toString(), true)
+					.addField("Games", Games.toString(), true)
+					.addBlankField(true);
 
 			channel.sendMessageEmbeds(info.build()).queue();
 			return;
@@ -84,18 +88,15 @@ public class SwitchCommand implements ICommand{
 				return;
 			}
 
-			try {
-				command.setState(!command.getState());
-				String status = command.getState()==true ? "Enabled" : "Disabled";
-				channel.sendMessage("Command is now: " + status).queue();
-			} catch (Exception e) {
+			command.setState(!command.getState());
+			String status = command.getState()==true ? "Enabled" : "Disabled";
+			if(command.getName().equals(this.getName()) || command.getName().equals("help")) {
 				channel.sendMessage("Sadly you cannot disable this command!").queue();
-			}
-			
-		}
-		
-
-		
+			}else {
+				DatabaseManager.INSTANCE.setState(command.getName(),command.getState());
+				channel.sendMessage("Command is now: " + status).queue();			
+			}			
+		}	
 	}
 
 	@Override
@@ -106,7 +107,7 @@ public class SwitchCommand implements ICommand{
 	@Override
 	public String getHelp() {
 		return "Disables/Enables commands\n"
-				+ "Ussage: `" + BotRun.prefix + "switch [command name/alias]`";
+				+ "Ussage: `" + Yoruichi.prefix + "switch [command name/alias]`";
 	}
 
 	@Override
@@ -115,8 +116,8 @@ public class SwitchCommand implements ICommand{
 	}
 	
 	@Override
-	public void setState(Boolean state) throws Exception {
-		throw new InvalidAttributesException();
+	public void setState(Boolean state){
+		this.state = state;
 	}
 
 	@Override

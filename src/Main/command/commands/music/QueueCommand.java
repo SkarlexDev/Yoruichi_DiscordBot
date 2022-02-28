@@ -1,5 +1,10 @@
 package Main.command.commands.music;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
+
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 
@@ -10,13 +15,8 @@ import Main.music.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
-
 public class QueueCommand implements ICommand {
-	private Boolean state = true;
+	private Boolean state;
 	
 	@Override
     public void handle(CommandContext ctx) {

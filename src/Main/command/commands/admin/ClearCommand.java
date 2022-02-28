@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import Main.BotRun;
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -13,10 +13,9 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
 
 public class ClearCommand implements ICommand {
-	private Boolean state = true;
+	private Boolean state;
 	
 	@Override
 	public void handle(CommandContext ctx) {
@@ -43,7 +42,7 @@ public class ClearCommand implements ICommand {
 			try {
 				Integer.parseInt(n1);
 			} catch (Exception e) {
-				channel.sendMessage("Invalid command use `"+BotRun.prefix+"help clear`").queue((message) -> {
+				channel.sendMessage("Invalid command use `"+Yoruichi.prefix+"help clear`").queue((message) -> {
 					message.delete().queueAfter(delTime, TimeUnit.SECONDS);
 				});
 				return;
@@ -88,11 +87,10 @@ public class ClearCommand implements ICommand {
 				}
 			}
 		} else {
-			// Usage of command
 			EmbedBuilder usage = EmbedUtils.getDefaultEmbed()
 					.setColor(Color.ORANGE)
 					.setTitle("Specify amount to delete")
-					.setDescription("Usage: `" + BotRun.prefix + "clear [# ammount of messages]`");
+					.setDescription("Usage: `" + Yoruichi.prefix + "clear [# ammount of messages]`");
 			channel.sendMessageEmbeds(usage.build()).queue();
 			usage.clear();
 		}
@@ -105,7 +103,7 @@ public class ClearCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Clears messages\n" + "Usage: `"+BotRun.prefix+"clear [# ammount of messages 0-100 / all = 100]`";
+		return "Clears messages\n" + "Usage: `"+Yoruichi.prefix+"clear [# ammount of messages 0-100 / all = 100]`";
 	}
 	@Override
 	public String getCategory() {

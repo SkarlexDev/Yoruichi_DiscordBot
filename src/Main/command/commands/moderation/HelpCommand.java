@@ -1,12 +1,10 @@
 package Main.command.commands.moderation;
 
 import java.awt.Color;
-import java.util.*;
+import java.util.List;
 
-import javax.naming.directory.InvalidAttributesException;
-
-import Main.BotRun;
 import Main.CommandManager;
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -14,7 +12,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class HelpCommand implements ICommand {
-	private final Boolean state = true;
+	private Boolean state;
 	private final CommandManager manager;
 
 
@@ -34,6 +32,7 @@ public class HelpCommand implements ICommand {
 			StringBuilder Music = new StringBuilder();
 			StringBuilder Games = new StringBuilder();
 			StringBuilder Admin = new StringBuilder();
+			StringBuilder Testing = new StringBuilder();
 
 			List<ICommand> allcommands = manager.getCommands();
 			
@@ -55,6 +54,9 @@ public class HelpCommand implements ICommand {
 				if (cmd.getCategory().equalsIgnoreCase("Admin")) {
 					Admin.append('`').append(it).append("` ");
 				}
+				if (cmd.getCategory().equalsIgnoreCase("Testing")) {
+					Testing.append('`').append(it).append("` ");
+				}
 			}
 			
 			EmbedBuilder info = EmbedUtils.getDefaultEmbed().
@@ -63,22 +65,13 @@ public class HelpCommand implements ICommand {
 					.addField("Fun", Fun.toString(), false)
 					.addField("Moderation", Moderation.toString(), false)
 					.addField("Music", Music.toString(), false)
-					.addField("Games", Games.toString(), false);
+					.addField("Games", Games.toString(), false)
+					.addField("Admin", Admin.toString(),false);
+			if(Testing.length()>0) {
+				info.addField("Testing", Testing.toString(),false);
+			}
 
-			channel.sendMessageEmbeds(info.build()).queue();
-			
-			
-			if(ctx.checkRolePermision(ctx.getMember().getRoles())) {
-				EmbedBuilder adminInfo = EmbedUtils.getDefaultEmbed().
-						setColor(Color.GREEN).
-						setAuthor("Admin Commands", null, ctx.getSelfUser().getAvatarUrl())
-						.addField("Commands", Admin.toString(), false);
-	
-
-				ctx.getAuthor().openPrivateChannel().complete().sendMessageEmbeds(adminInfo.build()).queue();
-				
-			}		
-			
+			channel.sendMessageEmbeds(info.build()).queue();			
 			return;
 		}
 
@@ -89,8 +82,6 @@ public class HelpCommand implements ICommand {
 			channel.sendMessage("Nothing found for " + search).queue();
 			return;
 		}
-
-		//channel.sendMessage(command.getHelp()).queue();
 		command.showHelp(ctx,channel);
 	}
 
@@ -101,7 +92,7 @@ public class HelpCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Shows the list with commands in the bot\n" + "Usage: `" + BotRun.prefix + "help [command]`";
+		return "Shows the list with commands in the bot\n" + "Usage: `" + Yoruichi.prefix + "help [command]`";
 	}
 
 	@Override
@@ -115,8 +106,8 @@ public class HelpCommand implements ICommand {
 	}
 
 	@Override
-	public void setState(Boolean state) throws Exception {
-		throw new InvalidAttributesException();
+	public void setState(Boolean state){
+		this.state = state;
 	}
 
 	@Override

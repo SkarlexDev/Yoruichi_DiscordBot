@@ -6,17 +6,18 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class PingCommand implements ICommand {
-	private Boolean state = true;
+	private Boolean state;
 	
     @Override
     public void handle(CommandContext ctx) {
-        JDA jda = ctx.getJDA();
+    	final TextChannel channel = ctx.getChannel();
 
         if(!this.state) {
-			ctx.getChannel().sendMessage("This command is disabled!").queue();
+			ctx.getDisabled(channel);
 			return;
 		}
         
+        JDA jda = ctx.getJDA();
         jda.getRestPing().queue(
                 (ping) -> ctx.getChannel()
                 .sendMessageFormat("Reset ping: %sms\nWS ping: %sms", ping, jda.getGatewayPing()).queue()

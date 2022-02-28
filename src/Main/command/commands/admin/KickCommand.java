@@ -3,7 +3,7 @@ package Main.command.commands.admin;
 
 import java.util.List;
 
-import Main.BotRun;
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import net.dv8tion.jda.api.Permission;
@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class KickCommand implements ICommand {
-	private Boolean state = true;
+	private Boolean state;
 	
     @Override
     public void handle(CommandContext ctx) {
@@ -68,7 +68,7 @@ public class KickCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Kick a member off the server.\n" +
-                "Usage: `"+BotRun.prefix+"kick <@user> <reason>`";
+                "Usage: `"+Yoruichi.prefix+"kick <@user> <reason>`";
     }
     
     @Override

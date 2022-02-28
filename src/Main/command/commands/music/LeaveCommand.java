@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 public class LeaveCommand implements ICommand {
-	private Boolean state = true;
+	private Boolean state;
 	
     @Override
     public void handle(CommandContext ctx) {

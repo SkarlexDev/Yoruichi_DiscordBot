@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class SkipCommand implements ICommand {
-	private Boolean state = true;
+	private Boolean state;
 	
     @Override
     public void handle(CommandContext ctx) {

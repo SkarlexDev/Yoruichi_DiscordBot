@@ -1,10 +1,12 @@
 package Main;
 
-public class BotStartup {	
+public class BotStartup {
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		try {
-			new BotRun();
+			if (Yoruichi.INSTANCE == null) {
+				new Yoruichi();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

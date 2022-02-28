@@ -1,11 +1,5 @@
 package Main.command;
 
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +8,11 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import me.duncte123.botcommons.commands.ICommandContext;
 import me.duncte123.botcommons.messaging.EmbedUtils;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 public class CommandContext implements ICommandContext {
     private final GuildMessageReceivedEvent event;
@@ -58,11 +57,11 @@ public class CommandContext implements ICommandContext {
     }
     
 	public Boolean checkRolePermision(List<Role> roles) {
-		System.out.println(permision);
 		return CollectionUtils.containsAny(roles,permision);
 	}
 	
 	public void getPermisionDenied(TextChannel channel) {
     	channel.sendMessage("You are not allowed to use this command!").queue();
     }
+	
 }

@@ -1,5 +1,9 @@
 package Main.music.lavaplayer;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -11,10 +15,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PlayerManager {
     private static PlayerManager INSTANCE;

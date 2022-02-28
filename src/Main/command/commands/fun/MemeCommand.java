@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class MemeCommand implements ICommand {
-	private Boolean state = true;
+	private Boolean state;
 	
 	@Override
     public void handle(CommandContext ctx) {
@@ -25,7 +25,6 @@ public class MemeCommand implements ICommand {
         WebUtils.ins.getJSONObject("https://apis.duncte123.me/meme").async((json) -> {
             if (!json.get("success").asBoolean()) {
                 channel.sendMessage("Something went wrong, try again later").queue();
-                System.out.println(json);
                 return;
             }
 

@@ -1,5 +1,10 @@
 package Main;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import javax.annotation.Nullable;
 
 import Main.command.CommandContext;
@@ -7,17 +12,27 @@ import Main.command.ICommand;
 import Main.command.commands.admin.ActivityCommand;
 import Main.command.commands.admin.ClearCommand;
 import Main.command.commands.admin.KickCommand;
+import Main.command.commands.admin.SetPrefixCommand;
 import Main.command.commands.admin.SwitchCommand;
-import Main.command.commands.fun.*;
+import Main.command.commands.fun.AnimalCommand;
+import Main.command.commands.fun.JokeCommand;
+import Main.command.commands.fun.MemeCommand;
 import Main.command.commands.games.RioCommand;
-import Main.command.commands.moderation.*;
-import Main.command.commands.music.*;
+import Main.command.commands.moderation.HelpCommand;
+import Main.command.commands.moderation.PingCommand;
+import Main.command.commands.music.JoinCommand;
+import Main.command.commands.music.LeaveCommand;
+import Main.command.commands.music.PlayCommand;
+import Main.command.commands.music.QueueCommand;
+import Main.command.commands.music.SkipCommand;
+import Main.command.commands.music.StopCommand;
+import Main.command.commands.music.VolumeCommand;
+import Main.command.commands.test.BannerCommand;
+import Main.command.commands.test.FakeCommand;
+import Main.command.commands.test.MezzonicCommand;
+import Main.command.commands.test.TestCommand;
+import Main.database.DatabaseManager;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Pattern;
 
 public class CommandManager {
     private final List<ICommand> commands = new ArrayList<>();
@@ -34,6 +49,7 @@ public class CommandManager {
         addCommand(new ClearCommand());
         addCommand(new ActivityCommand());
         addCommand(new SwitchCommand(this));
+        addCommand(new SetPrefixCommand());
         // music
         addCommand(new JoinCommand());
         addCommand(new LeaveCommand());
@@ -43,19 +59,29 @@ public class CommandManager {
         addCommand(new QueueCommand());
         addCommand(new VolumeCommand());
         
-        //other
+        //games
         addCommand(new RioCommand());
+        //testing
+        addCommand(new BannerCommand());
+        addCommand(new MezzonicCommand());
+        addCommand(new FakeCommand());
+        addCommand(new TestCommand());
         
     }
 
-    private void addCommand(ICommand cmd) {
-        boolean nameFound = this.commands.stream().anyMatch((it) -> it.getName().equalsIgnoreCase(cmd.getName()));
-
-        if (nameFound) {
-            throw new IllegalArgumentException("A command with this name is already present");
-        }
-
-        commands.add(cmd);
+	private void addCommand(ICommand cmd) {
+    	try {
+    		boolean nameFound = this.commands.stream().anyMatch((it) -> it.getName().equalsIgnoreCase(cmd.getName()));
+    		cmd.setState(MapByGuild.COMMANDS.computeIfAbsent(cmd.getName(), DatabaseManager.INSTANCE::getState));
+    		
+            if (nameFound) {
+                throw new IllegalArgumentException("A command with this name is already present");
+            }
+            // if there is any error change SQLiteDataSource -> config.setMaximumPoolSize(x) value
+            commands.add(cmd);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 
     public List<ICommand> getCommands() {
@@ -87,7 +113,6 @@ public class CommandManager {
             List<String> args = Arrays.asList(split).subList(1, split.length);
 
             CommandContext ctx = new CommandContext(event, args);
-
             cmd.handle(ctx);
         }
     }

@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 public class JokeCommand implements ICommand {
-	private Boolean state = true;
+	private Boolean state;
 	
 	@Override
 	public void handle(CommandContext ctx) {

@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 public class JoinCommand implements ICommand {
-	private Boolean state = true;
+	private Boolean state;
 	
     @Override
     public void handle(CommandContext ctx) {
@@ -29,7 +29,8 @@ public class JoinCommand implements ICommand {
         if (!memberVoiceState.inVoiceChannel()) {
             channel.sendMessage("You need to be in a voice channel for this command to work").queue();
             return;
-        }    
+        }  
+        
         
         while (true) {
             if (!selfVoiceState.inVoiceChannel()) {
