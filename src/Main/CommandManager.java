@@ -24,12 +24,15 @@ import Main.command.commands.music.JoinCommand;
 import Main.command.commands.music.LeaveCommand;
 import Main.command.commands.music.PlayCommand;
 import Main.command.commands.music.QueueCommand;
+import Main.command.commands.music.RepeatCommand;
 import Main.command.commands.music.SkipCommand;
 import Main.command.commands.music.StopCommand;
 import Main.command.commands.music.VolumeCommand;
 import Main.command.commands.test.BannerCommand;
 import Main.command.commands.test.FakeCommand;
 import Main.command.commands.test.MezzonicCommand;
+import Main.command.commands.test.RestartCommand;
+import Main.command.commands.test.SayCommand;
 import Main.command.commands.test.TestCommand;
 import Main.database.DatabaseManager;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -58,6 +61,7 @@ public class CommandManager {
         addCommand(new SkipCommand());
         addCommand(new QueueCommand());
         addCommand(new VolumeCommand());
+        addCommand(new RepeatCommand());
         
         //games
         addCommand(new RioCommand());
@@ -66,6 +70,8 @@ public class CommandManager {
         addCommand(new MezzonicCommand());
         addCommand(new FakeCommand());
         addCommand(new TestCommand());
+        addCommand(new RestartCommand());
+        addCommand(new SayCommand());
         
     }
 

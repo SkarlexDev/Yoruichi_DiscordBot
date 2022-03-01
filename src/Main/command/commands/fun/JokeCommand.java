@@ -2,6 +2,7 @@ package Main.command.commands.fun;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -49,7 +50,8 @@ public class JokeCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Shows a random joke";
+		return "Shows a random joke\n"
+				+ "Usage: `"  + Yoruichi.prefix + "" + this.getName() + "`";
 	}
 	
 	@Override

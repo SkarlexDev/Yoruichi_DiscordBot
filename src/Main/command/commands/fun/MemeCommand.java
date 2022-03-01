@@ -1,8 +1,8 @@
 package Main.command.commands.fun;
 
-
 import com.fasterxml.jackson.databind.JsonNode;
 
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -45,7 +45,8 @@ public class MemeCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Shows a random meme";
+        return "Shows a random meme\n"
+        		+ "Usage: `"  + Yoruichi.prefix + "" + this.getName() + "`";
     }
     
     @Override

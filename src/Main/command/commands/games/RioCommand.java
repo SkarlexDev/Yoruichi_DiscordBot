@@ -84,7 +84,7 @@ public class RioCommand implements ICommand {
 
 					});
 		} else {
-			channel.sendMessage("Correct usage is `"+Yoruichi.prefix+"rio [name][realm]`").queue();
+			this.showHelp(ctx, channel);
 			return;
 		}
 
@@ -98,7 +98,7 @@ public class RioCommand implements ICommand {
 	@Override
 	public String getHelp() {
 		return "Shows a wow raider.io stats\n"
-				+ "Correct usage is `"+Yoruichi.prefix+"rio [name][realm]`";
+				+ "Usage `"  + Yoruichi.prefix + "" + this.getName() + " [name][realm]`";
 	}
 
 	@Override

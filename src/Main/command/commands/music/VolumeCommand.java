@@ -33,14 +33,14 @@ public class VolumeCommand implements ICommand{
 		}
 		
 		if(args.size()==0) {			
-			channel.sendMessage("Current volume: "+ current+ "\n" + "Change music volume\n" + "`"+Yoruichi.prefix+"volume [# 0-100]`").queue();
+			channel.sendMessage("Current volume: "+ current+ "\n" + "Change music volume\n" + "`" + this.helpMsg()).queue();
 			return;
 		}
 		String n1 = args.get(0);
 		try {
 			Integer.parseInt(n1);
 		} catch (Exception e) {
-			channel.sendMessage("Invalid command use `"+Yoruichi.prefix+"volume [# 0-100]`").queue((message) -> {
+			channel.sendMessage("Invalid command use `" + this.helpMsg()).queue((message) -> {
 				message.delete().queueAfter(delTime, TimeUnit.SECONDS);
 			});
 			return;
@@ -48,13 +48,13 @@ public class VolumeCommand implements ICommand{
 		if (args.size() == 1) {
 			
 			if(Integer.parseInt(n1)<0) {
-				channel.sendMessage("You can't use negative value! `"+Yoruichi.prefix+"volume [# 0-100]`").queue((message) -> {
+				channel.sendMessage("You can't use negative value! `" + this.helpMsg()).queue((message) -> {
 					message.delete().queueAfter(delTime, TimeUnit.SECONDS);
 				});
 				return;
 			}
 			if(Integer.parseInt(n1)>100) {
-				channel.sendMessage("You can't set volume more than 100 `"+Yoruichi.prefix+"volume [# 0-100]`").queue((message) -> {
+				channel.sendMessage("You can't set volume more than 100 `" + this.helpMsg()).queue((message) -> {
 					message.delete().queueAfter(delTime, TimeUnit.SECONDS);
 				});
 				return;
@@ -70,6 +70,7 @@ public class VolumeCommand implements ICommand{
 			usage.clear();
 			
 			PlayerManager.getInstance().setVolume(audioPlayer,newval);
+			
 		}
 		
 		
@@ -82,7 +83,8 @@ public class VolumeCommand implements ICommand{
 
 	@Override
 	public String getHelp() {
-		return "Change music volume\n" + "Usage: `"+Yoruichi.prefix+"volume [0-100]`\n"
+		return "Change music volume\n" 
+				+ "Usage: `" + this.helpMsg() + "\n"
 				+ "Aliases: `" + this.getAliases()+ "`";
 	}
 	@Override
@@ -109,6 +111,10 @@ public class VolumeCommand implements ICommand{
 	@Override
 	public void showHelp(CommandContext ctx, TextChannel channel) {
 		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
+	}
+	
+	public String helpMsg() {
+		return Yoruichi.prefix + "" + this.getName() + " [#0-100]`";
 	}
 	
 

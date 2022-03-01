@@ -3,6 +3,7 @@ package Main.music.lavaplayer;
 import java.awt.Color;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
@@ -17,6 +18,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 public class TrackScheduler extends AudioEventAdapter {
 	public final AudioPlayer player;
 	public final BlockingQueue<AudioTrack> queue;
+	public boolean repeat = false;
 
 	public TrackScheduler(AudioPlayer player) {
 		this.player = player;
@@ -42,6 +44,10 @@ public class TrackScheduler extends AudioEventAdapter {
 	@Override
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
 		if (endReason.mayStartNext) {
+			if(this.repeat) {
+				this.player.startTrack(track.makeClone(), false);
+				return;
+			}
 			nextTrack();
 		}
 	}
@@ -52,15 +58,20 @@ public class TrackScheduler extends AudioEventAdapter {
 			AudioTrackInfo info = this.player.getPlayingTrack().getInfo();
 			EmbedBuilder eb = EmbedUtils.getDefaultEmbed()
 					.setColor(Color.green)
-					.setAuthor("Now playing: ")
-					.setTitle(info.title,info.uri)
-					.setDescription("By " + info.author);			
+					.setAuthor("TrackScheduler")
+					.setDescription(" \uD83D\uDD0A Now playing: ["+info.title+"]("+info.uri+") ["+ formatTime(this.player.getPlayingTrack().getDuration()) + "] By " + info.author);			
 			channel.sendMessageEmbeds(eb.build()).queue();
 		} catch (Exception e) {
 
 		}
 		
-		
-		
 	}
+	
+	public String formatTime(long timeInMillis) {
+        final long hours = timeInMillis / TimeUnit.HOURS.toMillis(1);
+        final long minutes = timeInMillis / TimeUnit.MINUTES.toMillis(1);
+        final long seconds = timeInMillis % TimeUnit.MINUTES.toMillis(1) / TimeUnit.SECONDS.toMillis(1);
+
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
 }

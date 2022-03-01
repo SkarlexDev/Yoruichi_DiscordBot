@@ -6,6 +6,7 @@ import java.util.List;
 import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
+import Main.music.lavaplayer.GuildMusicManager;
 import Main.music.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
@@ -64,7 +65,6 @@ public class PlayCommand implements ICommand {
         
         List<> bannedmusic = BannedMusic.getInstance().? get list // same as PlayerManager
         */
-       
         String link = String.join(" ", ctx.getArgs());
 
         if (!isUrl(link)) {
@@ -84,7 +84,7 @@ public class PlayCommand implements ICommand {
     @Override
     public String getHelp() {
         return "Plays a song\n" +
-                "Usage: `"+Yoruichi.prefix+"play <youtube link>`\n"
+                "Usage: `"  + Yoruichi.prefix + "" + this.getName() + " <youtube link>`\n"
         		+ "Aliases: `" + this.getAliases() + "`";
         
         

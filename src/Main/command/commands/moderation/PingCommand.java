@@ -1,5 +1,6 @@
 package Main.command.commands.moderation;
 
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import net.dv8tion.jda.api.JDA;
@@ -26,7 +27,8 @@ public class PingCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Shows the current ping from the bot to the discord servers";
+        return "Shows the current ping from the bot to the discord servers\n"
+        		+ "Usage `"  + Yoruichi.prefix + "" + this.getName() +  "`";
     }
 
     @Override

@@ -38,6 +38,7 @@ public class SwitchCommand implements ICommand{
 			StringBuilder Music = new StringBuilder();
 			StringBuilder Games = new StringBuilder();
 			StringBuilder Admin = new StringBuilder();
+			StringBuilder Testing = new StringBuilder();
 
 			List<ICommand> allcommands = manager.getCommands();
 			
@@ -63,6 +64,9 @@ public class SwitchCommand implements ICommand{
 				if (cmd.getCategory().equalsIgnoreCase("Admin")) {
 					Admin.append('`').append(it).append(": " + status).append("` \n");
 				}
+				if (cmd.getCategory().equalsIgnoreCase("Testing")) {
+					Testing.append('`').append(it).append(": " + status).append("` \n");
+				}
 			}
 			
 			EmbedBuilder info = EmbedUtils.getDefaultEmbed().
@@ -72,8 +76,12 @@ public class SwitchCommand implements ICommand{
 					.addField("Music", Music.toString(), true)
 					.addField("Fun", Fun.toString(), true)
 					.addField("Moderation", Moderation.toString(), true)
-					.addField("Games", Games.toString(), true)
-					.addBlankField(true);
+					.addField("Games", Games.toString(), true);
+				if(Testing.length()>0) {
+					info.addField("Testing", Testing.toString(),false);
+				}else {
+					info.addBlankField(true);
+				}
 
 			channel.sendMessageEmbeds(info.build()).queue();
 			return;
@@ -107,7 +115,7 @@ public class SwitchCommand implements ICommand{
 	@Override
 	public String getHelp() {
 		return "Disables/Enables commands\n"
-				+ "Ussage: `" + Yoruichi.prefix + "switch [command name/alias]`";
+				+ "Usage: `"  + Yoruichi.prefix + "" + this.getName() +  " [command name/alias]`";
 	}
 
 	@Override
@@ -127,7 +135,7 @@ public class SwitchCommand implements ICommand{
 	
 	@Override
 	public List<String> getAliases() {
-		return List.of("s","sw");
+		return List.of("sw");
 	}
 	
 	@Override

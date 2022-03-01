@@ -2,6 +2,7 @@ package Main.command.commands.test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -53,7 +54,8 @@ public class TestCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Shows a random activity";
+		return "Shows a random activity\n"
+				+ "Usage: `" + Yoruichi.prefix + "" + this.getName() + "`";
 	}
 	
 	@Override

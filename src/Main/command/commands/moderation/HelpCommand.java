@@ -92,7 +92,8 @@ public class HelpCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Shows the list with commands in the bot\n" + "Usage: `" + Yoruichi.prefix + "help [command]`";
+		return "Shows the list with commands in the bot\n" 
+				+ "Usage: `" + Yoruichi.prefix + "" + this.getName() +  " [command]`";
 	}
 
 	@Override

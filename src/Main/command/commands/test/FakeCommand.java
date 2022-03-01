@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import me.duncte123.botcommons.messaging.EmbedUtils;
@@ -69,7 +70,8 @@ private Boolean state;
 
 	@Override
 	public String getHelp() {
-		return "Generate a random fake user";
+		return "Generate a random fake user\n"
+				+ "Usage: `" + Yoruichi.prefix + "" + this.getName() + "`";
 	}
 	
 	@Override

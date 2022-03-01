@@ -1,5 +1,6 @@
 package Main.command.commands.music;
 
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import Main.music.lavaplayer.GuildMusicManager;
@@ -54,7 +55,8 @@ public class StopCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Stops the current song and clears the queue";
+        return "Stops the current song and clears the queue\n"
+        		+ "Usage: `" + Yoruichi.prefix + "" + this.getName() + "`";
     }
     @Override
 	public String getCategory() {

@@ -18,12 +18,13 @@ public class Yoruichi {
 	public static Yoruichi INSTANCE;
 	
 	String Token = System.getenv("TOKEN");
-	public static String prefix = System.getenv("PREFIX");
+	public static String prefix = null;
 	public static String owner = System.getenv("OWNER_ID");
+	private static String[] args; //for restart
 
     
-	public Yoruichi() throws LoginException, SQLException{
-
+	public Yoruichi(String[] args) throws LoginException, SQLException{
+		Yoruichi.args = args;
 		INSTANCE = this;
 		JDABuilder.createDefault(Token)
 			.setActivity(Activity.watching("Bleach"))
@@ -33,15 +34,19 @@ public class Yoruichi {
 			.enableIntents(GatewayIntent.GUILD_MEMBERS)
 			.setMemberCachePolicy(MemberCachePolicy.ALL)
 			.addEventListeners(new Listener())
-        //.addEventListeners(new ChatFilterListener())
+			.addEventListeners(new ChatFilterListener())
         //.addEventListeners(new GameTracker()) // testing
 			.build();
 		
 		EmbedUtils.setEmbedBuilder(
                 () -> new EmbedBuilder()
                         .setFooter("Created By Skarlex")
-        );
+        );	
 				
+	}
+	
+	public String[] args() {
+		return Yoruichi.args;
 	}
 	
 	

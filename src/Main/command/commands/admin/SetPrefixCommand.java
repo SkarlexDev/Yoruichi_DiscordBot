@@ -44,6 +44,7 @@ public class SetPrefixCommand implements ICommand{
 	private void updatePrefix(long guildId, String newPrefix, String command) {
         MapByGuild.PREFIXES.put(guildId, newPrefix);
         DatabaseManager.INSTANCE.setPrefix(guildId, newPrefix);
+        Yoruichi.prefix = newPrefix;
     }
 
 	@Override
@@ -53,7 +54,8 @@ public class SetPrefixCommand implements ICommand{
 
 	@Override
 	public String getHelp() {
-		return "Changes server command prefix";
+		return "Changes server command prefix\n"
+				+ "Usage: `"  + Yoruichi.prefix + "" + this.getName() +  " <#newPrefix>`";
 
 	}
 

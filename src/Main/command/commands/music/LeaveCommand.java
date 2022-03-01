@@ -1,5 +1,6 @@
 package Main.command.commands.music;
 
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import Main.music.lavaplayer.GuildMusicManager;
@@ -65,7 +66,8 @@ public class LeaveCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Bot leaves the coive channel";
+        return "Bot leaves the coive channel\n"
+        		+ "Usage: `" + Yoruichi.prefix + "" + this.getName() + "`";
     }
     
     @Override

@@ -7,4 +7,5 @@ public interface DatabaseManager {
     void setPrefix(long guildId, String newPrefix);
     Boolean getState(String commandId);
     void setState(String command,Boolean state);
+    void close();
 }

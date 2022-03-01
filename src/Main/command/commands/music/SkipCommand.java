@@ -2,6 +2,7 @@ package Main.command.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import Main.music.lavaplayer.GuildMusicManager;
@@ -61,7 +62,8 @@ public class SkipCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Skips the current track";
+        return "Skips the current track\n"
+        		+ "Usage: `" + Yoruichi.prefix + "" + this.getName() + "`";
     }
     @Override
 	public String getCategory() {

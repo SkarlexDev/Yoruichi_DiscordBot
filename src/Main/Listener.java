@@ -39,6 +39,9 @@ public class Listener extends ListenerAdapter {
 		final long guildId = event.getGuild().getIdLong();
 		// some delay on first use
 		final String prefix = MapByGuild.PREFIXES.computeIfAbsent(guildId, DatabaseManager.INSTANCE::getPrefix);
+		if(Yoruichi.prefix==null) {
+			Yoruichi.prefix = prefix;
+		}
 		String raw = event.getMessage().getContentRaw();
 
 		if (raw.equalsIgnoreCase(prefix + "shutdown") && user.getId().equals(Yoruichi.owner)) {

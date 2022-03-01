@@ -165,5 +165,9 @@ public class SQLiteDataSource implements DatabaseManager {
         }
 		
 	}
+	@Override
+	public void close() {
+		this.ds.close();
+	}
 	
 }

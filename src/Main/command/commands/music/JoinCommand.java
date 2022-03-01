@@ -1,5 +1,6 @@
 package Main.command.commands.music;
 
+import Main.Yoruichi;
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
@@ -49,7 +50,8 @@ public class JoinCommand implements ICommand {
                 channel.sendMessageFormat("Connecting to `\uD83D\uDD0A %s`", memberChannel.getName()).queue();
             }
             break;
-        }        
+        }
+ 
     }
 
     @Override
@@ -59,7 +61,8 @@ public class JoinCommand implements ICommand {
 
     @Override
     public String getHelp() {
-        return "Makes the bot join your voice channel";
+        return "Makes the bot join your voice channel\n"
+        		+ "Usage: `" + Yoruichi.prefix + "" + this.getName() + "`";
     }
     
     @Override

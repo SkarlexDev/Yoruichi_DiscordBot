@@ -38,7 +38,7 @@ public class AnimalCommand implements ICommand {
 
 			WebUtils.ins.getJSONObject("https://apis.duncte123.me/animal/" + args.get(0) + "").async((json) -> {
 				if (!json.get("success").asBoolean()) {
-					channel.sendMessage("Something went wrong, try again later or use `" + Yoruichi.prefix + "help animal`").queue();
+					channel.sendMessage("Something went wrong, try again later or use `"  + Yoruichi.prefix + " help " + this.getName() +  "`").queue();
 					System.out.println(json);
 					return;
 				}
@@ -69,7 +69,7 @@ public class AnimalCommand implements ICommand {
 					.setColor(Color.RED)
 					.setTitle("Type only 1 animal")
 					.setDescription("Usage: "
-							+ "`"+Yoruichi.prefix+"animal [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`");
+							+ "`"  + Yoruichi.prefix + "" + this.getName() + " [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`");
 			channel.sendMessageEmbeds(usage.build()).queue();
 			usage.clear();
 			return;
@@ -85,7 +85,7 @@ public class AnimalCommand implements ICommand {
 	@Override
 	public String getHelp() {
 		return "Shows a random animal image\n"
-				+ "Ussage: `"+Yoruichi.prefix+"animal [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`\n"
+				+ "Usage: `" + Yoruichi.prefix + "" + this.getName() + " [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`\n"
 				+ "Aliases: `" + this.getAliases() + "`";
 	}
 

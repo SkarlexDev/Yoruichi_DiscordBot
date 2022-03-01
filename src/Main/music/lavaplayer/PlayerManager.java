@@ -43,15 +43,11 @@ public class PlayerManager {
     
     public void setVolume(AudioPlayer audioPlayer, int volume) {
     	audioPlayer.setVolume(volume);
+    	
     }
     public void loadAndPlay(TextChannel channel, String trackUrl) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getGuild());
-        // bad
-        /*
-        int volume = Integer.parseInt(Config.get("VOLUME"));
-        musicManager.audioPlayer.setVolume(volume);
-        */
-        //
+        
         this.channel = channel;
         this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override

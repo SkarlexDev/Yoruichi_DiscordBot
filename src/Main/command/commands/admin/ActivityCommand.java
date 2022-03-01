@@ -94,7 +94,7 @@ public class ActivityCommand implements ICommand{
 	@Override
 	public String getHelp() {
 		return "Changes bot activity\n"
-				+ "Ussage: `"+Yoruichi.prefix+"activity [#type (w,c,l,p,s)][activity name]`\n"
+				+ "Usage: `" + Yoruichi.prefix + "" + this.getName() + " [#type (w,c,l,p,s)][activity name]`\n"
 				+ "Shortcuts for `[(Watching - w, Competing - c, Listening - l, Playing - p, Streaming - s)]`\n"
 				+ "Aliases: `" + this.getAliases() + "`";
 

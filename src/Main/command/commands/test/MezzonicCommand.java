@@ -1,8 +1,5 @@
 package Main.command.commands.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import Main.command.CommandContext;
 import Main.command.ICommand;
 import net.dv8tion.jda.api.entities.TextChannel;

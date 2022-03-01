@@ -42,7 +42,7 @@ public class ClearCommand implements ICommand {
 			try {
 				Integer.parseInt(n1);
 			} catch (Exception e) {
-				channel.sendMessage("Invalid command use `"+Yoruichi.prefix+"help clear`").queue((message) -> {
+				channel.sendMessage("Invalid command use `"+ Yoruichi.prefix + " help " + this.getName() + "`").queue((message) -> {
 					message.delete().queueAfter(delTime, TimeUnit.SECONDS);
 				});
 				return;
@@ -90,7 +90,7 @@ public class ClearCommand implements ICommand {
 			EmbedBuilder usage = EmbedUtils.getDefaultEmbed()
 					.setColor(Color.ORANGE)
 					.setTitle("Specify amount to delete")
-					.setDescription("Usage: `" + Yoruichi.prefix + "clear [# ammount of messages]`");
+					.setDescription("Usage: `" + Yoruichi.prefix + "" + this.getName() +  " [# ammount of messages]`");
 			channel.sendMessageEmbeds(usage.build()).queue();
 			usage.clear();
 		}
@@ -103,7 +103,8 @@ public class ClearCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Clears messages\n" + "Usage: `"+Yoruichi.prefix+"clear [# ammount of messages 0-100 / all = 100]`";
+		return "Clears messages\n" 
+				+ "Usage: `"+ Yoruichi.prefix + "" + this.getName() + " [# ammount of messages 0-100 / all = 100]`";
 	}
 	@Override
 	public String getCategory() {

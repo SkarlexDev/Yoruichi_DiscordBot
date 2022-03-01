@@ -131,7 +131,7 @@ public class BannerCommand implements ICommand {
 	public String getHelp() {
 		return "Generate banner for user\n"
 				+ "Default avatar size 900*900'\n"
-				+ "Ussage `" + Yoruichi.prefix + "banner (optional)[#size (500-1000)] / [@tag user] / [image url]`\n" 
+				+ "Usage `" + Yoruichi.prefix + "" + this.getName() +  " (optional)[#size (500-1000)] / [@tag user] / [image url]`\n" 
 				+ "Order of arg 1 & 2 & 3 doesn't matter or if there is only 1 arg, 2 args or none\n"
 				+ "Aliases : `" + this.getAliases() + "`";
 	}
