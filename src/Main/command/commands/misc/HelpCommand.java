@@ -1,20 +1,19 @@
-package Main.command.commands.moderation;
+package Main.command.commands.misc;
 
 import java.awt.Color;
 import java.util.List;
 
-import Main.CommandManager;
-import Main.Yoruichi;
-import Main.command.CommandContext;
+import Main.command.AbstractCommand;
 import Main.command.ICommand;
+import Main.command.commands.CommandContext;
+import Main.command.commands.CommandManager;
+import Main.util.YEnvi;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-public class HelpCommand implements ICommand {
-	private Boolean state;
+public class HelpCommand extends AbstractCommand implements ICommand {
 	private final CommandManager manager;
-
 
 	public HelpCommand(CommandManager manager) {
 		this.manager = manager;
@@ -24,9 +23,10 @@ public class HelpCommand implements ICommand {
 	public void handle(CommandContext ctx) {
 		List<String> args = ctx.getArgs();
 		TextChannel channel = ctx.getChannel();
-		
+
 		if (args.isEmpty()) {
-			
+
+			StringBuilder Misc = new StringBuilder();
 			StringBuilder Fun = new StringBuilder();
 			StringBuilder Moderation = new StringBuilder();
 			StringBuilder Music = new StringBuilder();
@@ -35,14 +35,16 @@ public class HelpCommand implements ICommand {
 			StringBuilder Testing = new StringBuilder();
 
 			List<ICommand> allcommands = manager.getCommands();
-			
-			for (ICommand cmd : allcommands) 
-			{ 
+
+			for (ICommand cmd : allcommands) {
 				String it = cmd.getName();
-			    if (cmd.getCategory().equalsIgnoreCase("Fun")) {
-			    	Fun.append('`').append(it).append("` ");
+				if (cmd.getCategory().equalsIgnoreCase("Misc")) {
+					Misc.append('`').append(it).append("` ");
 				}
-			    if (cmd.getCategory().equalsIgnoreCase("Moderation")) {
+				if (cmd.getCategory().equalsIgnoreCase("Fun")) {
+					Fun.append('`').append(it).append("` ");
+				}
+				if (cmd.getCategory().equalsIgnoreCase("Moderation")) {
 					Moderation.append('`').append(it).append("` ");
 				}
 				if (cmd.getCategory().equalsIgnoreCase("Music")) {
@@ -58,20 +60,20 @@ public class HelpCommand implements ICommand {
 					Testing.append('`').append(it).append("` ");
 				}
 			}
-			
-			EmbedBuilder info = EmbedUtils.getDefaultEmbed().
-					setColor(Color.GREEN).
-					setAuthor("Help command", null,	ctx.getSelfUser().getAvatarUrl())
-					.addField("Fun", Fun.toString(), false)
-					.addField("Moderation", Moderation.toString(), false)
-					.addField("Music", Music.toString(), false)
-					.addField("Games", Games.toString(), false)
-					.addField("Admin", Admin.toString(),false);
-			if(Testing.length()>0) {
-				info.addField("Testing", Testing.toString(),false);
+
+			EmbedBuilder info = EmbedUtils.getDefaultEmbed().setColor(Color.GREEN)
+					.setAuthor("Help command", null, ctx.getSelfUser().getAvatarUrl())
+					.addField("Misc", Misc.toString(), false).addField("Fun", Fun.toString(), false)
+					.addField("Moderation", Moderation.toString(), false).addField("Music", Music.toString(), false)
+					.addField("Games", Games.toString(), false).addField("Admin", Admin.toString(), false);
+
+			if (Testing.length() > 0) {
+				info.addField("Testing", Testing.toString(), false);
 			}
 
-			channel.sendMessageEmbeds(info.build()).queue();			
+			channel.sendMessageEmbeds(info.build()).queue(message -> {
+				ctx.clearLong(message);
+			});
 			return;
 		}
 
@@ -79,10 +81,12 @@ public class HelpCommand implements ICommand {
 		ICommand command = manager.getCommand(search);
 
 		if (command == null) {
-			channel.sendMessage("Nothing found for " + search).queue();
+			channel.sendMessage("Nothing found for " + search).queue(message -> {
+				ctx.clear(message);
+			});
 			return;
 		}
-		command.showHelp(ctx,channel);
+		command.showHelp(ctx, channel);
 	}
 
 	@Override
@@ -91,33 +95,18 @@ public class HelpCommand implements ICommand {
 	}
 
 	@Override
+	public String getCategory() {
+		return "Misc";
+	}
+
+	@Override
 	public String getHelp() {
-		return "Shows the list with commands in the bot\n" 
-				+ "Usage: `" + Yoruichi.prefix + "" + this.getName() +  " [command]`";
+		return "Shows the list with commands in the bot\n" + "Usage: `" + YEnvi.prefix + "" + this.getName()
+				+ " [command]`";
 	}
 
 	@Override
 	public List<String> getAliases() {
 		return List.of("commands", "cmds", "commandlist");
-	}
-
-	@Override
-	public String getCategory() {
-		return "Moderation";
-	}
-
-	@Override
-	public void setState(Boolean state){
-		this.state = state;
-	}
-
-	@Override
-	public Boolean getState() {
-		return this.state;
-	}
-
-	@Override
-	public void showHelp(CommandContext ctx, TextChannel channel) {
-		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
 	}
 }

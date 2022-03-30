@@ -1,80 +1,75 @@
 package Main.command.commands.music;
 
-import Main.Yoruichi;
-import Main.command.CommandContext;
+import Main.command.AbstractCommand;
 import Main.command.ICommand;
+import Main.command.commands.CommandContext;
 import Main.music.lavaplayer.GuildMusicManager;
 import Main.music.lavaplayer.PlayerManager;
+import Main.util.YEnvi;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-public class StopCommand implements ICommand {
-	private Boolean state;
-    @Override
-    public void handle(CommandContext ctx) {
-        final TextChannel channel = ctx.getChannel();
-        final Member self = ctx.getSelfMember();
-        final GuildVoiceState selfVoiceState = self.getVoiceState();
+public class StopCommand extends AbstractCommand implements ICommand {
 
-        if(!this.state) {
+	@Override
+	public void handle(CommandContext ctx) {
+		final TextChannel channel = ctx.getChannel();
+		final Member self = ctx.getSelfMember();
+		final GuildVoiceState selfVoiceState = self.getVoiceState();
+
+		if (!this.state) {
 			ctx.getDisabled(channel);
 			return;
 		}
-        
-        if (!selfVoiceState.inVoiceChannel()) {
-            channel.sendMessage("I need to be in a voice channel for this to work").queue();
-            return;
-        }
 
-        final Member member = ctx.getMember();
-        final GuildVoiceState memberVoiceState = member.getVoiceState();
+		if (!selfVoiceState.inVoiceChannel()) {
+			channel.sendMessage("I need to be in a voice channel for this to work").queue(message->{
+				ctx.clear(message);
+			});
+			return;
+		}
 
-        if (!memberVoiceState.inVoiceChannel()) {
-            channel.sendMessage("You need to be in a voice channel for this command to work").queue();
-            return;
-        }
+		final Member member = ctx.getMember();
+		final GuildVoiceState memberVoiceState = member.getVoiceState();
 
-        if (!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
-            channel.sendMessage("You need to be in the same voice channel as me for this to work").queue();
-            return;
-        }
+		if (!memberVoiceState.inVoiceChannel()) {
+			channel.sendMessage("You need to be in a voice channel for this command to work").queue(message->{
+				ctx.clear(message);
+			});
+			return;
+		}
 
-        final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(ctx.getGuild());
+		if (!memberVoiceState.getChannel().equals(selfVoiceState.getChannel())) {
+			channel.sendMessage("You need to be in the same voice channel as me for this to work").queue(message->{
+				ctx.clear(message);
+			});
+			return;
+		}
 
-        musicManager.scheduler.player.stopTrack();
-        musicManager.scheduler.queue.clear();
+		final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(ctx.getGuild());
 
-        channel.sendMessage("The player has been stopped and the queue has been cleared").queue();
-    }
+		musicManager.scheduler.player.stopTrack();
+		musicManager.scheduler.queue.clear();
 
-    @Override
-    public String getName() {
-        return "stop";
-    }
+		channel.sendMessage("The player has been stopped and the queue has been cleared").queue(message->{
+			ctx.clear(message);
+		});
+	}
 
-    @Override
-    public String getHelp() {
-        return "Stops the current song and clears the queue\n"
-        		+ "Usage: `" + Yoruichi.prefix + "" + this.getName() + "`";
-    }
-    @Override
+	@Override
+	public String getName() {
+		return "stop";
+	}
+
+	@Override
 	public String getCategory() {
 		return "Music";
 	}
-    @Override
-	public void setState(Boolean state) {
-		this.state = state;		
-	}
 
 	@Override
-	public Boolean getState() {
-		return this.state;
+	public String getHelp() {
+		return "Stops the current song and clears the queue\n" + "Usage: `" + YEnvi.prefix + "" + this.getName() + "`";
 	}
-	
-	@Override
-	public void showHelp(CommandContext ctx, TextChannel channel) {
-		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
-	}
-	
+
 }

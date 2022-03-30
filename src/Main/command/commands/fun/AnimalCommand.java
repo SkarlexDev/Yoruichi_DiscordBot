@@ -9,37 +9,42 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import Main.Yoruichi;
-import Main.command.CommandContext;
+import Main.command.AbstractCommand;
 import Main.command.ICommand;
+import Main.command.commands.CommandContext;
+import Main.util.YEnvi;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.internal.utils.IOUtil;
 
-public class AnimalCommand implements ICommand {
-	private Boolean state;
+public class AnimalCommand extends AbstractCommand implements ICommand {
+
 	@Override
 	public void handle(CommandContext ctx) {
 		final TextChannel channel = ctx.getChannel();
+		int size = ctx.getArgs().size();
 		List<String> args = ctx.getArgs();
-		
-		if(!this.state) {
+
+		if (!this.state) {
 			ctx.getDisabled(channel);
 			return;
 		}
-		if (ctx.getArgs().isEmpty()) {
+
+		if (args.isEmpty()) {
 			this.showHelp(ctx, channel);
 			return;
 		}
 
-		if (args.size() == 1) {
+		if (size == 1) {
 
 			WebUtils.ins.getJSONObject("https://apis.duncte123.me/animal/" + args.get(0) + "").async((json) -> {
 				if (!json.get("success").asBoolean()) {
-					channel.sendMessage("Something went wrong, try again later or use `"  + Yoruichi.prefix + " help " + this.getName() +  "`").queue();
-					System.out.println(json);
+					channel.sendMessage("Something went wrong, try again later or use `" + YEnvi.prefix + " help "
+							+ this.getName() + "`").queue(message -> {
+								ctx.clear(message);
+							});
 					return;
 				}
 
@@ -56,22 +61,22 @@ public class AnimalCommand implements ICommand {
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (FileNotFoundException e) {
-					channel.sendMessage("File not found try again").queue();
+					channel.sendMessage("File not found try again").queue(message -> {
+						ctx.clear(message);
+					});
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
-
 			});
 
 		} else {
-			EmbedBuilder usage = EmbedUtils.getDefaultEmbed()
-					.setColor(Color.RED)
-					.setTitle("Type only 1 animal")
-					.setDescription("Usage: "
-							+ "`"  + Yoruichi.prefix + "" + this.getName() + " [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`");
-			channel.sendMessageEmbeds(usage.build()).queue();
-			usage.clear();
+			EmbedBuilder usage = EmbedUtils.getDefaultEmbed().setColor(Color.RED).setTitle("Type only 1 animal")
+					.setDescription("Usage: " + "`" + YEnvi.prefix + "" + this.getName()
+							+ " [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`");
+			channel.sendMessageEmbeds(usage.build()).queue(message -> {
+				ctx.clear(message);
+			});
 			return;
 		}
 
@@ -83,15 +88,15 @@ public class AnimalCommand implements ICommand {
 	}
 
 	@Override
-	public String getHelp() {
-		return "Shows a random animal image\n"
-				+ "Usage: `" + Yoruichi.prefix + "" + this.getName() + " [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`\n"
-				+ "Aliases: `" + this.getAliases() + "`";
+	public String getCategory() {
+		return "Fun";
 	}
 
 	@Override
-	public String getCategory() {
-		return "Fun";
+	public String getHelp() {
+		return "Shows a random animal image\n" + "Usage: `" + YEnvi.prefix + "" + this.getName()
+				+ " [# llama cat duck alpaca seal camel dog fox lizard bird wolf panda discord-monster ]`\n"
+				+ "Aliases: `" + this.getAliases() + "`";
 	}
 
 	@Override
@@ -99,19 +104,4 @@ public class AnimalCommand implements ICommand {
 		return List.of("a", "anim", "pet");
 	}
 
-	@Override
-	public void setState(Boolean state) {
-		this.state = state;
-		
-	}
-
-	@Override
-	public Boolean getState() {
-		return this.state;
-	}
-
-	@Override
-	public void showHelp(CommandContext ctx, TextChannel channel) {
-		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
-	}
 }

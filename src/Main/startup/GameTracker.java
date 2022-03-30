@@ -1,4 +1,4 @@
-package Main;
+package Main.startup;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;

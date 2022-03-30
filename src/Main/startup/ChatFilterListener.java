@@ -1,4 +1,4 @@
-package Main;
+package Main.startup;
 
 import java.util.concurrent.TimeUnit;
 

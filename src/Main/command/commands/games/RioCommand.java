@@ -6,23 +6,23 @@ import java.util.List;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import Main.Yoruichi;
-import Main.command.CommandContext;
+import Main.command.AbstractCommand;
 import Main.command.ICommand;
+import Main.command.commands.CommandContext;
+import Main.util.YEnvi;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import me.duncte123.botcommons.web.WebUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.TextChannel;
 
-public class RioCommand implements ICommand {
-	private Boolean state;
-	
+public class RioCommand extends AbstractCommand implements ICommand {
+
 	@Override
 	public void handle(CommandContext ctx) {
 		final TextChannel channel = ctx.getChannel();
 		List<String> args = ctx.getArgs();
-				
-		if(!this.state) {
+
+		if (!this.state) {
 			ctx.getDisabled(channel);
 			return;
 		}
@@ -47,8 +47,7 @@ public class RioCommand implements ICommand {
 
 						EmbedBuilder pr = EmbedUtils.getDefaultEmbed()
 								.setTitle(data.get("name").asText(), data.get("profile_url").asText())
-								.setColor(Color.GREEN)
-								.setThumbnail(data.get("thumbnail_url").asText())
+								.setColor(Color.GREEN).setThumbnail(data.get("thumbnail_url").asText())
 								.addField("Faction", data.get("faction").asText().toUpperCase(), true)
 								.addField("Region", data.get("region").asText().toUpperCase(), true)
 								.addField("Realm", data.get("realm").asText(), true)
@@ -96,30 +95,13 @@ public class RioCommand implements ICommand {
 	}
 
 	@Override
-	public String getHelp() {
-		return "Shows a wow raider.io stats\n"
-				+ "Usage `"  + Yoruichi.prefix + "" + this.getName() + " [name][realm]`";
-	}
-
-	@Override
 	public String getCategory() {
 		return "Games";
 	}
-	
-	@Override
-	public void setState(Boolean state) {
-		this.state = state;
-		
-	}
 
 	@Override
-	public Boolean getState() {
-		return this.state;
-	}
-	
-	@Override
-	public void showHelp(CommandContext ctx, TextChannel channel) {
-		ctx.commandHelper(channel, this.getHelp() , this.getName().toUpperCase());
+	public String getHelp() {
+		return "Shows a wow raider.io stats\n" + "Usage `" + YEnvi.prefix + "" + this.getName() + " [name][realm]`";
 	}
 
 }

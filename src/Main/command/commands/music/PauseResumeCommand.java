@@ -1,18 +1,18 @@
 package Main.command.commands.music;
 
+import java.util.List;
+
 import Main.command.AbstractCommand;
 import Main.command.ICommand;
 import Main.command.commands.CommandContext;
 import Main.music.lavaplayer.GuildMusicManager;
 import Main.music.lavaplayer.PlayerManager;
 import Main.util.YEnvi;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.managers.AudioManager;
 
-public class LeaveCommand extends AbstractCommand implements ICommand {
+public class PauseResumeCommand extends AbstractCommand implements ICommand {
 
 	@Override
 	public void handle(CommandContext ctx) {
@@ -49,18 +49,12 @@ public class LeaveCommand extends AbstractCommand implements ICommand {
 			return;
 		}
 
-		final Guild guild = ctx.getGuild();
+		final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(ctx.getGuild());
 
-		final GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(guild);
+		final boolean paused = !musicManager.audioPlayer.isPaused();
+		musicManager.audioPlayer.setPaused(paused);
 
-		musicManager.scheduler.queue.clear();
-		musicManager.audioPlayer.stopTrack();
-
-		final AudioManager audioManager = ctx.getGuild().getAudioManager();
-
-		audioManager.closeAudioConnection();
-
-		channel.sendMessageFormat("Ok I leave :(").queue(message -> {
+		channel.sendMessageFormat("Player has been **%s**", paused ? "paused" : "resumed").queue(message -> {
 			ctx.clear(message);
 		});
 
@@ -68,7 +62,7 @@ public class LeaveCommand extends AbstractCommand implements ICommand {
 
 	@Override
 	public String getName() {
-		return "leave";
+		return "pauseresume";
 	}
 
 	@Override
@@ -78,7 +72,13 @@ public class LeaveCommand extends AbstractCommand implements ICommand {
 
 	@Override
 	public String getHelp() {
-		return "Bot leaves the coive channel\n" + "Usage: `" + YEnvi.prefix + "" + this.getName() + "`";
+		return "Pause/Resume the current song\n" + "Usage: `" + YEnvi.prefix + "" + this.getName() + "\n`"
+				+ "Aliases: `" + this.getAliases() + "`";
+	}
+
+	@Override
+	public List<String> getAliases() {
+		return List.of("pause", "resume");
 	}
 
 }

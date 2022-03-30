@@ -24,7 +24,7 @@
 					<assembleDirectory>target</assembleDirectory>
 					<programs>
 						<program>
-							<mainClass>Main.BotStartup</mainClass>
+							<mainClass>Main.Yoruichi</mainClass>
 							<name>bot</name>
 						</program>
 					</programs>
