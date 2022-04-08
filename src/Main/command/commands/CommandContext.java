@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import Main.util.MessageUtil;
+import Main.util.YEnvi;
 import me.duncte123.botcommons.commands.ICommandContext;
 import me.duncte123.botcommons.messaging.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -64,6 +65,10 @@ public class CommandContext implements ICommandContext {
 
 	// Permission verification
 	public Boolean checkCmdPermission(Member member, String name) {
+		// creator permission
+		if(member.getId().equals(YEnvi.owner)){
+			return true;
+		}
 		if (member.isOwner()) {
 			return true;
 		}

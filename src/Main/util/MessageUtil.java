@@ -10,14 +10,22 @@ public class MessageUtil {
 	private final static int delayLong = 60;
 
 	public static void autoDeleteMessage(Message message) {
-		if (message != null) {
-			message.delete().queueAfter(delay, TimeUnit.SECONDS);
+		try {
+			if (message != null) {
+				message.delete().queueAfter(delay, TimeUnit.SECONDS);
+			}			
+		} catch (Exception e) {
+			// ignore
 		}
 	}
 
 	public static void autoDeleteMessageLong(Message message) {
-		if (message != null) {
-			message.delete().queueAfter(delayLong, TimeUnit.SECONDS);
+		try {
+			if (message != null) {
+				message.delete().queueAfter(delayLong, TimeUnit.SECONDS);
+			}
+		} catch (Exception e) {
+			// ignore
 		}
 	}
 
