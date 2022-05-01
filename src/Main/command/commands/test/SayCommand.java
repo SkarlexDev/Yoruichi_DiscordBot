@@ -33,26 +33,6 @@ public class SayCommand extends AbstractCommand implements ICommand {
 			return;
 		}
 		
-		
-
-		MessageBuilder m = new MessageBuilder();
-		
-		m.append("📰 | Weekly Discussion Thread | April 01, 2022\n\n");
-		m.append("r/FreeGamesOnBlizzard/comments/ttnxkr/Call_of_Duty_Vanguard+World_Of_Warcraft_pack\n\n");
-		m.append("@FGoS Alerts");
-		EmbedBuilder h = new EmbedBuilder();
-		h.setColor(Color.white);
-		h.setAuthor("reddit");
-		h.setDescription("[r/FreeGamesOnBlizzard/comments/ttnxkr/Call_of_Duty_Vanguard+World_Of_Warcraft_pack](https://www.youtube.com/watch?v=gkTb9GP9lVI)");
-		h.setFooter("71569 votes and 13452 comments so far on Reddit");
-		m.setEmbed(h.build());
-		
-		
-		channel.sendMessage(m.build()).queue();
-		
-		
-		
-		/*
 		if (msg.getMentionedChannels().isEmpty()) {
 			this.showHelp(ctx, channel);
 			return;
@@ -71,7 +51,7 @@ public class SayCommand extends AbstractCommand implements ICommand {
 
 		final TextChannel target = msg.getMentionedChannels().get(0);
 		target.sendMessage(msgf).queue();
-	*/
+	
 	}
 
 	private void msgd(MessageEmbed build) {

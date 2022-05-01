@@ -114,7 +114,15 @@ public class CommandManager {
 		String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(prefix), "")
 				.split("\\s+");
 
-		String invoke = split[0].toLowerCase();
+		String invoke = null;
+		
+		if(split[0].length() == 0) {
+			// ensa protect
+			invoke = split[1].toLowerCase();
+		}else {
+			// normal humans
+			invoke = split[0].toLowerCase();
+		}
 
 		ICommand cmd = this.getCommand(invoke);
 
