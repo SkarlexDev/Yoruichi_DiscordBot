@@ -114,10 +114,12 @@ public class CommandManager {
 		String[] split = event.getMessage().getContentRaw().replaceFirst("(?i)" + Pattern.quote(prefix), "")
 				.split("\\s+");
 
+		boolean spaced = false;
 		String invoke = null;
 		
 		if(split[0].length() == 0) {
 			// ensa protect
+			spaced = true;
 			invoke = split[1].toLowerCase();
 		}else {
 			// normal humans
@@ -127,7 +129,13 @@ public class CommandManager {
 		ICommand cmd = this.getCommand(invoke);
 
 		if (cmd != null) {
-			List<String> args = Arrays.asList(split).subList(1, split.length);
+			List<String> args = null;
+			
+			if(spaced) {
+				args= Arrays.asList(split).subList(2, split.length);
+			}else {
+				args= Arrays.asList(split).subList(1, split.length);	
+			}
 
 			CommandContext ctx = new CommandContext(event, args);
 			cmd.handle(ctx);
